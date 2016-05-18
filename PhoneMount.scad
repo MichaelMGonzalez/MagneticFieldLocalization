@@ -18,26 +18,33 @@ casing_height = phone_height * .8;
 screw_mount_placement =  ( .95 * phone_width ) / 2;
 
 
-
-
+// Uncomment the below line to get the 2d projection
+//projection( cut=true)
 union() {
+    // Draw primary stand
     rotate(90) 
     BaseStation();
     BaseStation();
+    
+    // Draw triangular supports
     Support();
     rotate(180)
     Support();
     
+    // Draw vertical supports
     translate( [.8*casing_width/2,0,0] ) 
     HorizontalSupport();
     translate( [-.8*casing_width/2,0,0] )
     rotate(180)
     HorizontalSupport();
+
+    // Draw the phone case itself
+    translate( [0,0, 65 ] ) {  
+        DrawCase();  
+    }
 }
 
-translate( [0,0, 65 ] ) {  
-    DrawCase();  
-}
+
 //translate( [0,0,80] )
 //DrawPhone();
 
