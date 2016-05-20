@@ -1,4 +1,5 @@
 use <LBracket.scad>;
+use <MotorModel.scad>;
 printer_error = .03;
 
 sensor_width = 6.10 + printer_error; //~6.11
@@ -11,11 +12,14 @@ encasing_scale = 1.3;
 
 FullEncoder_IR();
 
+
 module FullEncoder_IR() {
     union() {
         SensorBox();
         SensorBracket();
         SensorBracket(-1);
+		  translate( [0,-4,-25])
+		  	MotorCase(error=printer_error);
     }
 }
 module SensorBox() {
