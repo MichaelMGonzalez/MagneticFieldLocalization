@@ -1,3 +1,4 @@
+// Variables
 width = 40;
 height = 15;
 screw_offset_x = .35 * width;
@@ -6,9 +7,11 @@ screw_radius = 1.016;
 screw_height = 3;
 res=20;
 
-phone_width = 70.5;
-phone_depth = 6.8;
-phone_height = 143.4;
+global_correction = 0.04;
+
+phone_width = 70.5   + global_correction;
+phone_depth = 6.8    + global_correction;
+phone_height = 143.4 + global_correction;
 
 casing_wiggle = 5;
 casing_depth = phone_depth + casing_wiggle; 
@@ -19,7 +22,7 @@ screw_mount_placement =  ( .95 * phone_width ) / 2;
 
 
 // Uncomment the below line to get the 2d projection
-//projection( cut=true)
+// projection( cut=true)
 union() {
     // Draw primary stand
     rotate(90) 
