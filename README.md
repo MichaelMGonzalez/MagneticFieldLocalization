@@ -1,5 +1,5 @@
 # MagneticFieldLocalization
-The itensities of an indoor magnetic field may be used to aid localization of a mobile robot. This repository contains all the required files for a real experiment to map and localize this field.
+The itensities of an indoor magnetic field may be used to aid localization of a mobile robot. This repository contains all the required files for an experiment to map and localize this field.
 
 | Task | Status | Comments | Next Steps
 | ---  | ---    | ---      | ---
