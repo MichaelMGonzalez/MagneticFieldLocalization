@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -6939,6 +6939,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="R2" library="resistor" deviceset="R-US_" device="0204/7"/>
 <part name="R3" library="resistor" deviceset="R-US_" device="0204/7"/>
 <part name="R4" library="resistor" deviceset="R-US_" device="0204/7"/>
+<part name="R5" library="resistor" deviceset="R-US_" device="0204/7"/>
+<part name="R6" library="resistor" deviceset="R-US_" device="0204/7"/>
+<part name="GND5" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6956,6 +6959,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <instance part="R2" gate="G$1" x="-73.66" y="17.78" rot="R270"/>
 <instance part="R3" gate="G$1" x="-66.04" y="-27.94" rot="R270"/>
 <instance part="R4" gate="G$1" x="-73.66" y="-27.94" rot="R270"/>
+<instance part="R5" gate="G$1" x="-30.48" y="-22.86" rot="R270"/>
+<instance part="R6" gate="G$1" x="-30.48" y="-40.64" rot="R270"/>
+<instance part="GND5" gate="1" x="-30.48" y="-12.7" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -6988,31 +6994,62 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <net name="A0_0_BRAIN" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="A0"/>
+<wire x1="-25.4" y1="5.08" x2="-27.94" y2="5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A1_0_BRAIN" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="A1"/>
+<wire x1="-25.4" y1="0" x2="-27.94" y2="0" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A2_0_BRAIN" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="A2"/>
+<wire x1="-25.4" y1="-5.08" x2="-27.94" y2="-5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A3_0_BRAIN" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="A3"/>
+<wire x1="-25.4" y1="-7.62" x2="-27.94" y2="-7.62" width="0.1524" layer="91"/>
+<pinref part="U$2" gate="G$1" pin="E"/>
+<pinref part="R1" gate="G$1" pin="2"/>
+<wire x1="-66.04" y1="12.7" x2="-66.04" y2="11.43" width="0.1524" layer="91"/>
+<wire x1="-66.04" y1="11.43" x2="-66.04" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="-66.04" y1="11.43" x2="-52.07" y2="11.43" width="0.1524" layer="91"/>
+<junction x="-66.04" y="11.43"/>
+<wire x1="-52.07" y1="11.43" x2="-49.53" y2="13.97" width="0.1524" layer="91" curve="-90"/>
+<wire x1="-49.53" y1="13.97" x2="-45.72" y2="13.97" width="0.1524" layer="91"/>
+<wire x1="-45.72" y1="13.97" x2="-43.18" y2="11.43" width="0.1524" layer="91" curve="-90"/>
+<wire x1="-43.18" y1="11.43" x2="-43.18" y2="-6.35" width="0.1524" layer="91"/>
+<wire x1="-43.18" y1="-6.35" x2="-27.94" y2="-6.35" width="0.1524" layer="91"/>
+<wire x1="-27.94" y1="-6.35" x2="-27.94" y2="-7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A4_0_BRAIN" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="A4"/>
+<pinref part="U$3" gate="G$1" pin="E"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="-66.04" y1="-33.02" x2="-66.04" y2="-34.29" width="0.1524" layer="91"/>
+<wire x1="-66.04" y1="-34.29" x2="-66.04" y2="-35.56" width="0.1524" layer="91"/>
+<wire x1="-66.04" y1="-34.29" x2="-38.1" y2="-34.29" width="0.1524" layer="91"/>
+<wire x1="-38.1" y1="-34.29" x2="-38.1" y2="-10.16" width="0.1524" layer="91"/>
+<junction x="-66.04" y="-34.29"/>
+<wire x1="-38.1" y1="-10.16" x2="-25.4" y2="-10.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A5_0_BRAIN" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="A5"/>
+<pinref part="R6" gate="G$1" pin="1"/>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="-30.48" y1="-35.56" x2="-30.48" y2="-31.75" width="0.1524" layer="91"/>
+<wire x1="-30.48" y1="-31.75" x2="-30.48" y2="-27.94" width="0.1524" layer="91"/>
+<wire x1="-30.48" y1="-31.75" x2="-27.94" y2="-31.75" width="0.1524" layer="91"/>
+<wire x1="-27.94" y1="-31.75" x2="-27.94" y2="-12.7" width="0.1524" layer="91"/>
+<wire x1="-27.94" y1="-12.7" x2="-25.4" y2="-12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A6_0_BRAIN" class="0">
@@ -7099,6 +7136,13 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <net name="POS_1_BATTERY" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="VBAT"/>
+<wire x1="25.4" y1="20.32" x2="35.56" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="20.32" x2="38.1" y2="22.86" width="0.1524" layer="91" curve="-90"/>
+<wire x1="38.1" y1="22.86" x2="39.37" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="39.37" y1="22.86" x2="41.91" y2="20.32" width="0.1524" layer="91" curve="-90"/>
+<pinref part="R6" gate="G$1" pin="2"/>
+<wire x1="41.91" y1="20.32" x2="41.91" y2="-45.72" width="0.1524" layer="91"/>
+<wire x1="41.91" y1="-45.72" x2="-30.48" y2="-45.72" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RESET_0_BRAIN" class="0">
@@ -7157,6 +7201,11 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="-66.04" y1="-5.08" x2="-66.04" y2="-10.16" width="0.1524" layer="91"/>
 <pinref part="GND4" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="-30.48" y1="-17.78" x2="-30.48" y2="-15.24" width="0.1524" layer="91"/>
+<pinref part="GND5" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="N$5" class="0">
 <segment>
@@ -7165,25 +7214,11 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="-73.66" y1="12.7" x2="-73.66" y2="10.16" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$6" class="0">
-<segment>
-<pinref part="U$2" gate="G$1" pin="E"/>
-<pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="-66.04" y1="12.7" x2="-66.04" y2="10.16" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$7" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="A"/>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="-73.66" y1="-33.02" x2="-73.66" y2="-35.56" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$8" class="0">
-<segment>
-<pinref part="U$3" gate="G$1" pin="E"/>
-<pinref part="R3" gate="G$1" pin="2"/>
-<wire x1="-66.04" y1="-33.02" x2="-66.04" y2="-35.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
@@ -7430,6 +7465,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <net name="A0_0_BRAIN" class="0">
 <segment>
 <pinref part="D1_3_DISTANCESENSOR" gate="G$1" pin="A"/>
+<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="-5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND_0_BRAIN" class="0">
@@ -7475,6 +7511,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <net name="A1_0_BRAIN" class="0">
 <segment>
 <pinref part="D1_4_DISTANCESENSOR_2" gate="G$1" pin="A"/>
+<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="-5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND_0_BRAIN" class="0">
@@ -7520,6 +7557,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <net name="A2_0_BRAIN" class="0">
 <segment>
 <pinref part="D1_5_DISTANCESENSOR_3" gate="G$1" pin="A"/>
+<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="-5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND_0_BRAIN" class="0">

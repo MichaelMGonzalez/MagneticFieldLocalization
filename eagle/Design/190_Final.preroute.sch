@@ -7156,6 +7156,11 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <wire x1="25.4" y1="17.78" x2="30.48" y2="17.78" width="0.1524" layer="91"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="-30.48" y1="-17.78" x2="-30.48" y2="-15.24" width="0.1524" layer="91"/>
+<pinref part="GND5" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="POS_1_BATTERY" class="0">
 <segment>
@@ -7202,13 +7207,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <net name="VBUS_0_BRAIN" class="0">
 <segment>
 <pinref part="U1_0_BRAIN" gate="G$1" pin="VBUS"/>
-</segment>
-</net>
-<net name="GND" class="0">
-<segment>
-<pinref part="R5" gate="G$1" pin="1"/>
-<wire x1="-30.48" y1="-17.78" x2="-30.48" y2="-15.24" width="0.1524" layer="91"/>
-<pinref part="GND5" gate="1" pin="GND"/>
 </segment>
 </net>
 <net name="N$5" class="0">
