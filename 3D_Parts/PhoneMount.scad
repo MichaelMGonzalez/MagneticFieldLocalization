@@ -22,11 +22,15 @@ screw_mount_placement =  ( .95 * phone_width ) / 2;
 
 
 // Uncomment the below line to get the 2d projection
+<<<<<<< HEAD
 //projection( cut=true)
+=======
+ projection( cut=true)
+>>>>>>> origin/master
 union() {
     // Draw primary stand
-    rotate(90) 
-    BaseStation();
+    //rotate(90) 
+    //BaseStation();
     BaseStation();
     
     // Draw triangular supports
