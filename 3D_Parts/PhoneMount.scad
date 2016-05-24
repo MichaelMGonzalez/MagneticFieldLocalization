@@ -22,7 +22,7 @@ screw_mount_placement =  ( .95 * phone_width ) / 2;
 
 
 // Uncomment the below line to get the 2d projection
-// projection( cut=true)
+//projection( cut=true)
 union() {
     // Draw primary stand
     rotate(90) 

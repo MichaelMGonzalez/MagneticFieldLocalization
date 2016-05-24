@@ -20,7 +20,7 @@ module MotorCase(error=0) {
 		Motor(error=error);
 		translate( [0,0,-1*casing_height/2] )
 		Motor(error=error,size=.74);	
-		Cutout();
+        Cutout();
 		
 	}
 
