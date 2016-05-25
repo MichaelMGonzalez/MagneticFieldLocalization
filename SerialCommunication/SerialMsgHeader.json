@@ -5,6 +5,7 @@
                 "before_def" : "#ifndef SERIAL_MSG_HEADER\n#define SERIAL_MSG_HEADER",
                 "after_def"  : "#endif",
                 "def"        : "#define",
+                "assignment" : " ",
                 "end_def"    : ""
                 
             },
@@ -12,18 +13,109 @@
                 "type"       : "java",
                 "before_def" : "public class SerialMsgHeader {",
                 "after_def"  : "}",
-                "def"        : "\tpublic static final int",
+                "def"        : "\tpublic static final byte",
+                "assignment" : " = ",
                 "end_def"    : ";"
             }
     ],
     "msgs" : [
         {
-            "name"  : "MOVE_FORWARD",
+            "name"  : "STOP",
+            "value" : 0 
+        },
+        {
+            "name"  : "MOVE_FORWARD_ANALOG",
             "value" : 1 
         },
         {
-            "name"  : "STOP",
-            "value" : 0 
+            "name"  : "MOVE_BACKWARD_ANALOG",
+            "value" : 2
+        },
+        {
+            "name"  : "TURN_LEFT_ANALOG",
+            "value" : 3 
+        },
+        {
+            "name"  : "TURN_RIGHT_ANALOG",
+            "value" : 4
+        },
+        {
+            "name"  : "MOVE_FORWARD_VELOCITY",
+            "value" : 5
+        },
+        {
+            "name"  : "MOVE_BACKWARD_VELOCITY",
+            "value" : 6
+        },
+        {
+            "name"  : "TURN_LEFT_VELOCITY",
+            "value" : 7
+        },
+        {
+            "name"  : "TURN_RIGHT_VELOCITY",
+            "value" : 8
+        },
+        {
+            "name"  : "SET_P",
+            "value" : 8
+        },
+        {
+            "name"  : "SET_I",
+            "value" : 9
+        },
+        {
+            "name"  : "SET_D",
+            "value" : 10
+        },
+        {
+            "name"  : "GET_P",
+            "value" : 11
+        },
+        {
+            "name"  : "GET_I",
+            "value" : 12
+        },
+        {
+            "name"  : "GET_D",
+            "value" : 13
+        },
+        {
+            "name"  : "GET_VELOCITY",
+            "value" : 14
+        },
+        {
+            "name"  : "GET_BATTERY",
+            "value" : 15
+        },
+        {
+            "name"  : "GET_STATE",
+            "value" : 16
+        },
+        {
+            "name"  : "REPORTING_STATE",
+            "value" : 250
+        },
+        {
+            "name"  : "REPORTING_P",
+            "value" : 251
+        },
+        {
+            "name"  : "REPORTING_I",
+            "value" : 252
+        },
+        {
+            "name"  : "REPORTING_D",
+            "value" : 253
+        },
+        {
+            "name"  : "REPORTING_VELOCITY",
+            "value" : 254
+        },
+        {
+            "name"  : "REPORTING_BATTERY",
+            "value" : 255
         }
+        
+        
     ]
 }
