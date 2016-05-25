@@ -7,3 +7,5 @@ cam:
 	runEagleCam.py --gspec $(GSPEC) --brd $(BRD) --dir $(OUT_DIR) --zip $(ZIP) --eagle $(EAGLE_EXE)
 clean:
 	make -C $(OUT_DIR) clean
+	rm -f *.pro
+	rm -f *.job
