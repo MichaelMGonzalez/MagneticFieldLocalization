@@ -13,7 +13,7 @@ The itensities of an indoor magnetic field may be used to aid localization of a 
 | ---
 | **Arduino Code**
 | Program Wheel Encoder | General Logic Drafted | Medium | All of it is contained within an ino file | Transform into class
-| PID Controller      | Not Started | Low | . | Start!
+| PID Controller      | Drafted classes | Low | . | Write test cases
 | Serial Communicator | External API's tested | Medium | Shared Message Framework created | Commit to GitHub/Draft module
 | ---
 | **Android Code**
