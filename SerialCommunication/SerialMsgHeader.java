@@ -1,5 +1,6 @@
 public class SerialMsgHeader {
 
+	public static final byte MSG_SIZE = 1;
 	public static final byte STOP = 0;
 	public static final byte MOVE_FORWARD_ANALOG = 1;
 	public static final byte MOVE_BACKWARD_ANALOG = 2;

@@ -1,6 +1,7 @@
 #ifndef SERIAL_MSG_HEADER
 #define SERIAL_MSG_HEADER
 
+#define MSG_SIZE 1
 #define STOP 0
 #define MOVE_FORWARD_ANALOG 1
 #define MOVE_BACKWARD_ANALOG 2

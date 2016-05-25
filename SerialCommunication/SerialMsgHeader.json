@@ -20,6 +20,10 @@
     ],
     "msgs" : [
         {
+            "name"  : "MSG_SIZE",
+            "value" : 1
+        },
+        {
             "name"  : "STOP",
             "value" : 0 
         },
