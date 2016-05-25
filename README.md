@@ -21,6 +21,7 @@ The itensities of an indoor magnetic field may be used to aid localization of a 
 | Magnometer Sensor API | Not Started| High | . | Read through API's
 | Serial Communicator | External API's tested | High | Shared Message Framework created | Commit to GitHub/Draft module
 | Localizer | Not Started | Very High | Depends on most everything else before we can begin | Finish everything else
+| Network Module | Not Started | Medium/Low | It would be really nice to have some way to control the robot from a computer | ?
 | ---
 | **Python Data Viewers**
 | Histogram Plotter | Made Script to plot velocities | Low | . | Generalize?
