@@ -1,0 +1,29 @@
+{ 
+    "file_types" : [
+            {
+                "type"       : "h",
+                "before_def" : "#ifndef SERIAL_MSG_HEADER\n#define SERIAL_MSG_HEADER",
+                "after_def"  : "#endif",
+                "def"        : "#define",
+                "end_def"    : ""
+                
+            },
+            {
+                "type"       : "java",
+                "before_def" : "public class SerialMsgHeader {",
+                "after_def"  : "}",
+                "def"        : "\tpublic static final int",
+                "end_def"    : ";"
+            }
+    ],
+    "msgs" : [
+        {
+            "name"  : "MOVE_FORWARD",
+            "value" : 1 
+        },
+        {
+            "name"  : "STOP",
+            "value" : 0 
+        }
+    ]
+}
