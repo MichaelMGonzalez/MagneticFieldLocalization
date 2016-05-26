@@ -3,13 +3,14 @@
 #include "util.hpp"
 #include <chrono>
 #include <ctime>
-#define INCR (1.0/32.0)
-#define DEST 1724
+#define INCR (1.0/16.0)
+#define DEST 999
+#define CONVERGED_THRESHOLD 20
 
-#define P_MIN 0
-#define P_MAX 3
+#define P_MIN .1
+#define P_MAX .5
 #define D_RANGE 2
-#define TEST_ITTR 2000
+#define TEST_ITTR 9000
 
 using namespace std;
 int testPID(float p, float i, float d) {
@@ -20,12 +21,17 @@ int testPID(float p, float i, float d) {
     int idx = 1;
     timer.begin_timer();
     long long t = 0;
+    int cnt = 0;
     for( idx = 1; idx < TEST_ITTR; idx++ ) {
 	auto delta_time = timer.end_timer();
 	t += delta_time;
         val += controller.update( val, t );
 	timer.begin_timer();
-	if( ((int)val) + 1 == (int)DEST ) break;
+	if( ((int)val) + 1 == (int)DEST ) {
+	    if( cnt == CONVERGED_THRESHOLD ) {break;}
+	    else {cnt++;}
+	}
+	else cnt = 0;
     }
     //cout << "Reached Value after " << idx << " iterations" << endl;
     return t;

@@ -20,7 +20,7 @@ with open( sys.argv[1] ) as csvfile:
 #print (xs), (ys), (zs)
 def filter_by_min( min_collection, collection):
     min_val = min(min_collection)
-    def is_min(e): return e < min_val * 7
+    def is_min(e): return e <= min_val * 1.21 
     rv = [ collection[i] for i in range( len(min_collection) ) if is_min(min_collection[i]) ]
     return rv
 if use_min:
