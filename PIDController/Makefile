@@ -1,14 +1,17 @@
 CC = g++
 CXXFLAGS = -std=c++11
 DATA = pid_sim.csv
-EXC = ./tester
+PROG_NAME = tester
+EXC = ./$(PROG_NAME)
 
-run: tester
-	$(EXC)
+$(DATA): $(PROG_NAME) data
 data:
-	$(EXC) > $(DATA)
-plot: data
+	$(EXC) >> $(DATA)
+plot: $(DATA)
 	python Plotter.py $(DATA)
-tester: PIDController.o
+$(PROG_NAME): PIDController.o util.o
+run: $(PROG_NAME) 
+	$(EXC)
+.PHONY: clean
 clean: 
 	rm -f tester *.o $(DATA)
