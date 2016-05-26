@@ -12,7 +12,7 @@ The itensities of an indoor magnetic field may be used to aid localization of a 
 | Make Schemematic | Made Encoder| HIGHEST | Symbol/Phone Model Symbol/Voltage Divider | . | Label Resistor Values/Verify
 | ---
 | **Arduino Code**
-| Program Wheel Encoder | General Logic Drafted | Medium | All of it is contained within an ino file | Transform into class
+| Program Wheel Encoder | General Logic Drafted | Medium | Started to write header file| Write CPP file/Test spoke encodings
 | PID Controller      | Drafted classes | Low | . | Write test cases
 | Serial Communicator | External API's tested | Medium | Shared Message Framework created | Commit to GitHub/Draft module
 | ---
