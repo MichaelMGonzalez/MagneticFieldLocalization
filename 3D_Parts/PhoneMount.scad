@@ -3,23 +3,13 @@
  * Description: Bracket designed to mount a Samsung Galaxy S6 onto a tiny
  *              mobile robot
  */
+include <MakerBotSettings.scad>
+use <ScrewMount.scad>;
+
+
+
 
 // Dimensions
-
-// Printer settings
-extruder_width = 0.4;
-global_correction = 0.04 + 2*extruder_width;
-
-// Screw Mounts
-width = 40;
-height = 15;
-screw_offset_x = .35 * width;
-screw_offset_y = .25 * height;
-screw_radius = 1.25 + global_correction;
-screw_height = 3;
-res=20; // Cylinder resolution
-
-
 phone_width = 70.5   + global_correction;
 phone_depth = 6.8    + global_correction;
 phone_height = 143.4 + global_correction;
@@ -33,7 +23,7 @@ screw_mount_placement =  ( .95 * phone_width ) / 2;
 
 
 // Uncomment the below line to get the 2d projection
- projection( cut=true)
+//projection( cut=true)
 	union() {
 		// Draw primary stand
 		//rotate(90) 
@@ -82,7 +72,7 @@ module HorizontalSupport(height=10) {
 
 module BaseStation() {
 	union () {
-		cube( [screw_mount_placement * 2, casing_depth, 1] , center=true);
+		cube( [screw_mount_placement * 2, casing_depth, 3] , center=true);
 		ScrewMount( screw_mount_placement,0,0);
 		ScrewMount( -1 * screw_mount_placement,0,0);
 	}
@@ -108,27 +98,8 @@ module DrawCase() {
 
 }
 
-module Screw(x,y,z) {
-	translate( [x,y,z] )
-		cylinder( screw_height, screw_radius, screw_radius, $fn=res, center = true );
-}
 
 
-module ScrewMount(x,y,z) {
-	translate( [x,y,z] )
-		rotate( 90 ) // Rotate for placement
-		// Subtract screw holes from base
-		difference()  {
-			// Draw base
-			cube( [width,height,1], center = true );
-			// Draw screw holes
-			Screw(screw_offset_x, screw_offset_y, 0);
-			Screw(-1 * screw_offset_x, screw_offset_y, 0);
-			Screw(-1 * screw_offset_x, -1 * screw_offset_y, 0);
-			Screw(screw_offset_x, -1 * screw_offset_y, 0);
-
-		}
-}
 
 
 module prism(l, w, h){

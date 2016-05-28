@@ -1,6 +1,6 @@
-
+include <MakerBotSettings.scad>
 use <MotorModel.scad>;
-printer_error = .03;
+printer_error = global_correction;
 
 sensor_width  = 6.10 + printer_error; //~6.11
 sensor_height = 4.39 + printer_error; //~4.40
@@ -20,12 +20,12 @@ FullEncoder_IR();
 
 module FullEncoder_IR() {
     union() {
-        SensorBox(1.1);
-		  translate( [0,-3.5,-23])
+        SensorBox(1);
+		  translate( [0,-3,-21.8])
 		  	MotorCase(error=printer_error);
-		  translate( [0,-.5*encasing_height, -1 * encasing_depth] )
-rotate(90, [1,0,0] )
-cube( [sensor_width,sensor_width,4], center = true );
+		  translate( [0,-.5*encasing_height, -.8 * encasing_depth] )
+//rotate(90, [1,0,0] )
+cube( [sensor_width,sensor_width*.8,4], center = true );
 
 translate([0,-.845*sensor_height, (.9-encasing_scale)]) rotate(180) SensorBox(1);
     }
@@ -44,9 +44,4 @@ module Sensor(s=1) {
 }
 
 
-function neg(x) = -1 * x;
-function placeLBracket( side ) = [ side * 
-                             sensor_width  / (2 * encasing_scale),
-                             sensor_depth  / -1,
-                             encasing_scale * sensor_depth  
-                             * neg(encasing_scale) ];
+

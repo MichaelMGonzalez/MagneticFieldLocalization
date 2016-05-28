@@ -1,3 +1,4 @@
+include <MakerBotSettings.scad>
 printer_error = .03;
 
 motor_width  = 42.18;
