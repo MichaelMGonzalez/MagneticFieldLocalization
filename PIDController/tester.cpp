@@ -3,7 +3,7 @@
 #include "util.hpp"
 #include <chrono>
 #include <ctime>
-#define INCR (1.0/16.0)
+#define INCR (1.0/64.0)
 #define DEST 999
 #define CONVERGED_THRESHOLD 20
 

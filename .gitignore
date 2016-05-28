@@ -6,3 +6,5 @@
 *.stl
 *.job
 *.o
+PIDController/tester
+PIDController/pid_sim.csv
