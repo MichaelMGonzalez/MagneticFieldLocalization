@@ -14,15 +14,32 @@ for file_type in json_obj["file_types"]:
     before_text = file_type["before_def"]
     after_text  = file_type["after_def"]
     def_text    = file_type["def"]
+    setup_text  = file_type["setup_def"]
     end_def     = file_type["end_def"]
     assignment  = file_type["assignment"]
+    comment     = file_type["comment"]
+    
     # Open the new file to write in
     new_file = open(new_name, 'w')
     nl = "\n"
     new_file.write(before_text + nl + nl)
+    new_file.write(comment + "Setup Constants \n\n")
+    for m in json_obj["setup"]:
+        new_file.write( setup_text + " " + m["name"] + assignment)
+        new_file.write( str(m["value"]) + end_def + nl )
     # Write the definitions to the file
+    keys_map = {}
+    new_file.write(comment + "Message Constants \n\n")
     for m in json_obj["msgs"]:
+        keys_map[m["name"]] = m["value"]
         new_file.write( def_text + " " + m["name"] + assignment)
         new_file.write( str(m["value"]) + end_def + nl )
+    if "map" in file_type:
+        map_def = file_type["map"]
+        keys = map_def["key_def"]
+        keys += ", ".join([ '"'+k+'"' for k in keys_map.keys()]) 
+        keys += map_def["end_def"]
+        print keys
+        
     new_file.write(nl + after_text)
     new_file.close()

@@ -4,21 +4,36 @@
                 "type"       : "h",
                 "before_def" : "#ifndef SERIAL_MSG_HEADER\n#define SERIAL_MSG_HEADER",
                 "after_def"  : "#endif",
+                "setup_def"  : "#define",
                 "def"        : "#define",
                 "assignment" : " ",
-                "end_def"    : ""
-                
+                "end_def"    : "",
+                "comment"    : "// "
             },
             {
                 "type"       : "java",
                 "before_def" : "public class SerialMsgHeader {",
                 "after_def"  : "}",
+                "setup_def"  : "\tpublic static final int",
                 "def"        : "\tpublic static final byte",
                 "assignment" : " = ",
-                "end_def"    : ";"
+                "end_def"    : ";",
+                "comment"    : "\t// ",
+                "map"        : {
+                    "key_def"   : "public static final String[] MSG_KEYS = new { ",
+                    "value_def" : "public static final String[] MSG_VALS = new { ",
+                    "end_def"   : " };"
+                }
             }
     ],
+    "setup" : [
+        {
+            "name"  : "BAUD_RATE",
+            "value" : 115200
+        }
+    ],
     "msgs" : [
+
         {
             "name"  : "MSG_SIZE",
             "value" : 1

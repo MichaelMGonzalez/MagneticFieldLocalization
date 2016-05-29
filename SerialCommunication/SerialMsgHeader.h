@@ -1,6 +1,11 @@
 #ifndef SERIAL_MSG_HEADER
 #define SERIAL_MSG_HEADER
 
+// Setup Constants 
+
+#define BAUD_RATE 115200
+// Message Constants 
+
 #define MSG_SIZE 1
 #define STOP 0
 #define MOVE_FORWARD_ANALOG 1
