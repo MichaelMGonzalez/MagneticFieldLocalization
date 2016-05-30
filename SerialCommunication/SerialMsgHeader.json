@@ -20,8 +20,8 @@
                 "end_def"    : ";",
                 "comment"    : "\t// ",
                 "map"        : {
-                    "key_def"   : "public static final String[] MSG_KEYS = new { ",
-                    "value_def" : "public static final String[] MSG_VALS = new { ",
+                    "key_def"   : "\tpublic static final String[] MSG_KEYS = { ",
+                    "value_def" : "\tpublic static final byte[] MSG_VALS = { ",
                     "end_def"   : " };"
                 }
             }
@@ -112,27 +112,27 @@
         },
         {
             "name"  : "REPORTING_STATE",
-            "value" : 250
+            "value" : 122
         },
         {
             "name"  : "REPORTING_P",
-            "value" : 251
+            "value" : 123
         },
         {
             "name"  : "REPORTING_I",
-            "value" : 252
+            "value" : 124
         },
         {
             "name"  : "REPORTING_D",
-            "value" : 253
+            "value" : 125 
         },
         {
             "name"  : "REPORTING_VELOCITY",
-            "value" : 254
+            "value" : 126
         },
         {
             "name"  : "REPORTING_BATTERY",
-            "value" : 255
+            "value" : 127
         }
         
         

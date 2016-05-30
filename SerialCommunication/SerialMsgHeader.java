@@ -24,11 +24,13 @@ public class SerialMsgHeader {
 	public static final byte GET_VELOCITY = 14;
 	public static final byte GET_BATTERY = 15;
 	public static final byte GET_STATE = 16;
-	public static final byte REPORTING_STATE = 250;
-	public static final byte REPORTING_P = 251;
-	public static final byte REPORTING_I = 252;
-	public static final byte REPORTING_D = 253;
-	public static final byte REPORTING_VELOCITY = 254;
-	public static final byte REPORTING_BATTERY = 255;
+	public static final byte REPORTING_STATE = 122;
+	public static final byte REPORTING_P = 123;
+	public static final byte REPORTING_I = 124;
+	public static final byte REPORTING_D = 125;
+	public static final byte REPORTING_VELOCITY = 126;
+	public static final byte REPORTING_BATTERY = 127;
+	public static final String[] MSG_KEYS = { "GET_P", "MOVE_BACKWARD_ANALOG", "TURN_RIGHT_ANALOG", "GET_I", "GET_D", "REPORTING_D", "REPORTING_VELOCITY", "REPORTING_BATTERY", "SET_P", "TURN_LEFT_VELOCITY", "REPORTING_STATE", "REPORTING_P", "SET_I", "TURN_LEFT_ANALOG", "TURN_RIGHT_VELOCITY", "GET_VELOCITY", "SET_D", "MOVE_FORWARD_VELOCITY", "STOP", "MOVE_BACKWARD_VELOCITY", "GET_STATE", "GET_BATTERY", "REPORTING_I", "MSG_SIZE", "MOVE_FORWARD_ANALOG" };
+	public static final byte[] MSG_VALS = { GET_P, MOVE_BACKWARD_ANALOG, TURN_RIGHT_ANALOG, GET_I, GET_D, REPORTING_D, REPORTING_VELOCITY, REPORTING_BATTERY, SET_P, TURN_LEFT_VELOCITY, REPORTING_STATE, REPORTING_P, SET_I, TURN_LEFT_ANALOG, TURN_RIGHT_VELOCITY, GET_VELOCITY, SET_D, MOVE_FORWARD_VELOCITY, STOP, MOVE_BACKWARD_VELOCITY, GET_STATE, GET_BATTERY, REPORTING_I, MSG_SIZE, MOVE_FORWARD_ANALOG };
 
 }

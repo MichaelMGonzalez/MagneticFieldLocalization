@@ -39,7 +39,11 @@ for file_type in json_obj["file_types"]:
         keys = map_def["key_def"]
         keys += ", ".join([ '"'+k+'"' for k in keys_map.keys()]) 
         keys += map_def["end_def"]
-        print keys
+        values = map_def["value_def"]
+        values += ", ".join([ k for k in keys_map.keys()]) 
+        values += map_def["end_def"]
+        new_file.write(keys + nl)
+        new_file.write(values + nl) 
         
     new_file.write(nl + after_text)
     new_file.close()
