@@ -9,3 +9,6 @@
 *.class
 PIDController/tester
 PIDController/pid_sim.csv
+*.b#*
+*.s#*
+*.l#*
