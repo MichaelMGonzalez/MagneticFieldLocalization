@@ -14,6 +14,10 @@ cam:
 lpkf:
 	boardmill.py -i $(LPKF_PRE_BRD) -o $(LPKF_BRD) -g $(GSPEC_LPKF) --postroute -p 1
 	runEagleCam.py --gspec $(GSPEC_LPKF) --brd $(LPKF_BRD) --dir $(LPKF_DIR) --zip $(LPKF_ZIP) --eagle $(EAGLE_EXE)
+%.gerbers : %.brd
+	mkdir $*_gerbers
+	#boardmill.py -i $< -o $*.post_route -g $(GSPEC_LPKF) --postroute -p 1
+	runEagleCam.py --gspec $(GSPEC_LPKF) --brd $< --dir $(LPKF_DIR)/$* --zip $*.zip --eagle $(EAGLE_EXE)
 clean:
 	make -C $(OUT_DIR) clean
 	make -C $(LPKF_DIR) clean
