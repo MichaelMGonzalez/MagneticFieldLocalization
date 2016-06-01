@@ -2,7 +2,7 @@
     "file_types" : [
             {
                 "type"       : "h",
-                "dir"        : "../Arduino/",
+                "dir"        : "../Arduino/Robot/",
                 "before_def" : "#ifndef SERIAL_MSG_HEADER\n#define SERIAL_MSG_HEADER",
                 "after_def"  : "#endif",
                 "setup_def"  : "#define",
@@ -10,6 +10,19 @@
                 "assignment" : " ",
                 "end_def"    : "",
                 "comment"    : "// "
+            },
+	    {
+                "name"       : "keywords",
+                "type"       : "txt",
+                "dir"        : "../Arduino/Robot/",
+                "before_def" : "",
+                "after_def"  : "",
+                "setup_def"  : "",
+                "def"        : "",
+                "assignment" : "",
+                "end_def"    : "\t KEYWORD1",
+                "ignore_def" : true,
+                "comment"    : "NA"
             },
             {
                 "type"       : "java",

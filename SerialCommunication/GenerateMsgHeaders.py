@@ -11,6 +11,7 @@ file_name = file_path.split(".json")[0]
 for file_type in json_obj["file_types"]: 
     # Load the format settings
     new_name    = file_name+"."+file_type["type"]
+    if "name" in file_type: new_name = file_type["name"] + "." + file_type["type"]
     before_text = file_type["before_def"]
     after_text  = file_type["after_def"]
     def_text    = file_type["def"]
@@ -24,18 +25,26 @@ for file_type in json_obj["file_types"]:
     # Open the new file to write in
     new_file = open(new_name, 'w')
     nl = "\n"
-    new_file.write(before_text + nl + nl)
-    new_file.write(comment + "Setup Constants \n\n")
+    if not ("ignore_def" in file_type):
+        new_file.write(before_text + nl + nl)
+    if comment != "NA":
+        new_file.write(comment + "Setup Constants \n\n")
     for m in json_obj["setup"]:
         new_file.write( setup_text + " " + m["name"] + assignment)
-        new_file.write( str(m["value"]) + end_def + nl )
+	if not ("ignore_def" in file_type):
+            new_file.write( str(m["value"]) + end_def + nl )
+	else: new_file.write(  end_def + nl )
     # Write the definitions to the file
     keys_map = {}
-    new_file.write(comment + "Message Constants \n\n")
+    if comment != "NA":
+        new_file.write(comment + "Message Constants \n\n")
     for m in json_obj["msgs"]:
         keys_map[m["name"]] = m["value"]
         new_file.write( def_text + " " + m["name"] + assignment)
-        new_file.write( str(m["value"]) + end_def + nl )
+	if not ("ignore_def" in file_type):
+            new_file.write( str(m["value"]) + end_def + nl )
+	else: new_file.write(  end_def + nl )
+
     if "map" in file_type:
         map_def = file_type["map"]
         keys = map_def["key_def"]
