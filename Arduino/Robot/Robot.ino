@@ -13,20 +13,20 @@
 \** ======================================================================= **/
 
 // Gadgetron Libraries
-#include "MomentaryButton.h"
-#include "PinChangeInt.h"
-#include "DistanceSensor.h"
-#include "Motor.h"
-#include "Servo.h"
-#include "ServoMotor.h"
-#include "GadgetManager.h"
-#include "LED.h"
+#include <MomentaryButton.h>
+#include <PinChangeInt.h>
+#include <Motor.h>
+#include <Servo.h>
+#include <ServoMotor.h>
+#include <GadgetManager.h>
+#include <LED.h>
 
 // 190 Libraries
 #include "robot.h"
 #include "SerialMsgHeader.h"
 #include <DifferentialDrive.h>
 #include <PIDController.h>
+#include <IRWheelEncoder.h>
 
 /** ======================================================================= **\
 |** ---------------------------- Pin Constants ---------------------------- **|
@@ -39,25 +39,27 @@
 #define MOTOR1_PWMB 5
 #define MOTOR1_BIN1 9
 #define MOTOR1_BIN2 10
-#define DISTANCESENSOR1_A A0
-#define DISTANCESENSOR2_A A1
-#define DISTANCESENSOR3_A A2
 #define LED1_CONTROL 11
 #define LED2_CONTROL 12
 #define MOMENTARYBUTTON1_SENSE 13
+
+#define DISTANCESENSOR1_A A0
+#define DISTANCESENSOR2_A A1
+#define DISTANCESENSOR3_A A2
+#define ENCODER1 A3
+#define ENCODER2 A4
 
 /** ======================================================================= **\
 |** ------------------------- Object Declarations ------------------------- **|
 \** ======================================================================= **/
 
-Motor motor1(MOTOR1_STBY, MOTOR1_PWMA, MOTOR1_AIN1, MOTOR1_AIN2, MOTOR1_PWMB, MOTOR1_BIN1, MOTOR1_BIN2);
-DistanceSensor distancesensor1(DISTANCESENSOR1_A);
-DistanceSensor distancesensor2(DISTANCESENSOR2_A);
-DistanceSensor distancesensor3(DISTANCESENSOR3_A);
+Motor motor(MOTOR1_STBY, MOTOR1_PWMA, MOTOR1_AIN1, MOTOR1_AIN2, MOTOR1_PWMB, MOTOR1_BIN1, MOTOR1_BIN2);
 LED led1(LED1_CONTROL);
 LED led2(LED2_CONTROL);
-MomentaryButton momentarybutton1(MOMENTARYBUTTON1_SENSE);
+MomentaryButton button(MOMENTARYBUTTON1_SENSE);
 DifferentialDrive ddController = DifferentialDrive(WHEEL_RADIUS, DISTANCE_BETWEEN_WHEELS);
+IRWheelEncoder ir_encoder1 = IRWheelEncoder(ENCODER1);
+IRWheelEncoder ir_encoder2 = IRWheelEncoder(ENCODER2);
 
 /** ======================================================================= **\
 |** --------------------------- Setup Function ---------------------------- **|
@@ -70,13 +72,14 @@ DifferentialDrive ddController = DifferentialDrive(WHEEL_RADIUS, DISTANCE_BETWEE
 \** ======================================================================= **/
 
 void setup() {
-   motor1.setup();
-   distancesensor1.setup();
-   distancesensor2.setup();
-   distancesensor3.setup();
+   motor.setup();
    led1.setup();
    led2.setup();
-   momentarybutton1.setup();
+   button.setup();
+   ir_encoder1.setup();
+   ir_encoder1.set_thresholds(1005, 970);
+   ir_encoder2.setup();
+   ir_encoder2.set_thresholds(1005, 970);
    Serial.begin(BAUD_RATE);
 }
 
@@ -93,4 +96,8 @@ void setup() {
 \** ======================================================================= **/
 
 void loop() {
+  motor.move(1,110,0);
 }
+
+
+

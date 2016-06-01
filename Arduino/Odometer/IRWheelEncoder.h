@@ -1,6 +1,7 @@
 #ifndef IR_WHEEL_ENCODER
 #define IR_WHEEL_ENCODER
 
+#include <Arduino.h>
 class IRWheelEncoder {
     public:
         IRWheelEncoder( uint8_t data_pin ); 
@@ -17,7 +18,7 @@ class IRWheelEncoder {
         float update(long curr_time);
 
         /**
-         * Function Name: set_threshholds(int,int)
+         * Function Name: set_thresholds(int,int)
          * Description: This function sets the threshold when a wheel spoke 
          *              should be detected and the threshold when a spoke can
          *              be assumed to have passed the sensor.
@@ -26,12 +27,16 @@ class IRWheelEncoder {
          *            int fallen    - The analog read value at which the sensor
          *                            does not a spoke
          */
-        void set_threshholds( int detection, int fallen );
+        void set_thresholds( int detection, int fallen );
+        int encoder_count = 5;
     private:
         uint8_t pin;
         bool waiting_for_edge;
+        int detection_threshold, fallen_threshold;
+        int pegs_seen;
         int last_scan;
         long last_rising_edge;
+        long rotation_period;
 };
 
 
