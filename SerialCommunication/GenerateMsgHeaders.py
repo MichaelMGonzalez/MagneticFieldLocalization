@@ -19,6 +19,8 @@ for file_type in json_obj["file_types"]:
     assignment  = file_type["assignment"]
     comment     = file_type["comment"]
     
+
+    if "dir" in file_type: new_name = file_type["dir"] + new_name
     # Open the new file to write in
     new_file = open(new_name, 'w')
     nl = "\n"
