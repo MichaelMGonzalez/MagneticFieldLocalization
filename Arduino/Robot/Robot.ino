@@ -60,6 +60,7 @@ MomentaryButton button(MOMENTARYBUTTON1_SENSE);
 DifferentialDrive ddController = DifferentialDrive(WHEEL_RADIUS, DISTANCE_BETWEEN_WHEELS);
 IRWheelEncoder ir_encoder1 = IRWheelEncoder(ENCODER1);
 IRWheelEncoder ir_encoder2 = IRWheelEncoder(ENCODER2);
+PIDController pidController = PIDController( 1, 0, 1);
 
 /** ======================================================================= **\
 |** --------------------------- Setup Function ---------------------------- **|
