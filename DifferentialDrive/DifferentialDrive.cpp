@@ -1,6 +1,4 @@
 #include "DifferentialDrive.h"
-#include <iostream>
-using namespace std;
 
 DifferentialDrive::DifferentialDrive( float wheel_radius, float wheel_distance) {
     this-> wheel_radius   = (float)wheel_radius;
