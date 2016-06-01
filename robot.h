@@ -1,0 +1,9 @@
+#ifndef ROBOT
+#define ROBOT
+#include "UnitConversions.h"
+
+#define WHEEL_CIRCUMFERENCE MM_TO_METER( 68 )
+#define WHEEL_RADIUS WHEEL_CIRCUMFERENCE / 2
+#define DISTANCE_BETWEEN_WHEELS MM_TO_METER( 151.71 )
+
+#endif
