@@ -20,13 +20,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30dp"
-            android:text="mTesla:" />
+            android:text="uTesla:" />
         <TextView
             android:id="@+id/edit_tesla"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3.0"
             android:textSize="30dp"
             android:paddingLeft="10dp"/>
     </LinearLayout>
@@ -52,7 +51,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_reset" />
+        android:text="@string/button_reset"
+        android:onClick="startTime"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
