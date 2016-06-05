@@ -1,1 +1,1 @@
-DifferentialDrive	KEYWORD1get_linear_speed	KEYWORD2get_angular_velocity	KEYWORD2set_wheel_angular_velocity	KEYWORD2
+DifferentialDrive	KEYWORD1get_linear_speed	KEYWORD2get_angular_velocity	KEYWORD2set_wheel_angular_velocity	KEYWORD2velocity	KEYWORD2angular_velocity	KEYWORD2get_wheel_angular_velocity	KEYWORD2

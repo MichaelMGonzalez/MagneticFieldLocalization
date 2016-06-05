@@ -20,6 +20,8 @@ class DifferentialDrive {
          */
         float get_angular_velocity();
         void set_wheel_angular_velocity( char wheel, float omega );
+        float get_wheel_angular_velocity( char wheel );
+        float velocity, angular_velocity;
     private:
         float wheel_radius;
         float wheel_distance;
