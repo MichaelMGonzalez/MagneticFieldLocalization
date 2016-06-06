@@ -76,20 +76,12 @@
             "value" : 4
         },
         {
-            "name"  : "MOVE_FORWARD_VELOCITY",
+            "name"  : "SET_LINEAR_VELOCITY",
             "value" : 5
         },
         {
-            "name"  : "MOVE_BACKWARD_VELOCITY",
+            "name"  : "SET_ANGULAR_VELOCITY",
             "value" : 6
-        },
-        {
-            "name"  : "TURN_LEFT_VELOCITY",
-            "value" : 7
-        },
-        {
-            "name"  : "TURN_RIGHT_VELOCITY",
-            "value" : 8
         },
         {
             "name"  : "SET_P",
@@ -116,16 +108,28 @@
             "value" : 13
         },
         {
-            "name"  : "GET_VELOCITY",
+            "name"  : "GET_RIGHT_CONTROL",
             "value" : 14
         },
         {
-            "name"  : "GET_BATTERY",
+            "name"  : "GET_LEFT_CONTROL",
             "value" : 15
         },
         {
+            "name"  : "GET_LINEAR_VELOCITY",
+            "value" : 20
+        },
+        {
+            "name"  : "GET_ANGULAR_VELOCITY",
+            "value" : 21
+        },
+        {
+            "name"  : "GET_BATTERY",
+            "value" : 30
+        },
+        {
             "name"  : "GET_STATE",
-            "value" : 16
+            "value" : 31
         },
         {
             "name"  : "REPORTING_STATE",

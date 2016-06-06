@@ -5,8 +5,11 @@ import json
 import sys
 import time
 class SerialComm:
-    def __init__(self, port_name="COM5", file_path = "SerialMsgHeader.json"):        
+    def __init__(self, port_name=None, file_path = "SerialMsgHeader.json"):        
         # Load config file
+	if port_name is None:
+	    if os.name == "nt": port_name = "COM5"
+	    else: port_name = "/dev/ttyACM0"
         json_obj = json.load(open(file_path))
         self.v_to_msg = dict( [int(v["value"]),v["name"]] for v in json_obj["msgs"] )
         self.msg_sent = struct.pack( "c", chr([ v["value"] for v in json_obj["msgs"] if v["name"] == "MSG_SENT" ][0]  & 255) )
@@ -26,14 +29,13 @@ class SerialComm:
 
 
 if __name__ == "__main__":
-    port_name = ""
+    port_name = None
     if os.name == "nt":
         print "What is the serial port?"
         port_name = "COM" + raw_input("Port Name: ")
         print "Trying to connect to:", port_name
-    else: print "OS NOT SUPPORTED"
 
-    comm = SerialComm()
+    comm = SerialComm(port_name=port_name)
 
     print "Would you like to read or write? (r/w)"
     state = None
