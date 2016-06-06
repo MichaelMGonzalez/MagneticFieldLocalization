@@ -60,7 +60,24 @@ MomentaryButton button(MOMENTARYBUTTON1_SENSE);
 DifferentialDrive ddController = DifferentialDrive(WHEEL_RADIUS, DISTANCE_BETWEEN_WHEELS);
 IRWheelEncoder left_encoder = IRWheelEncoder(ENCODER_LEFT);
 IRWheelEncoder right_encoder = IRWheelEncoder(ENCODER_RIGHT);
-PIDController pidController = PIDController( 1, 0, 1);
+PIDController l_pid_controller = PIDController( 2.5, 0, 1);
+PIDController r_pid_controller = PIDController( 2.5, 0, 1);
+
+
+
+// State variables
+// Left Wheel's Angular Velocity
+float l_a = 0;
+// Right Wheel's Angular Velocity
+float r_a = 0;
+float velocity = 0;
+float angular_velocity = 0;
+
+// Wheel Control values
+int l_c = 0;
+int r_c = 0;
+
+
 
 /** ======================================================================= **\
 |** --------------------------- Setup Function ---------------------------- **|
@@ -77,10 +94,16 @@ void setup() {
    led1.setup();
    led2.setup();
    button.setup();
+   // Setup encoders
    left_encoder.setup();
    left_encoder.set_thresholds(934, 915);
    right_encoder.setup();
    right_encoder.set_thresholds(1017, 992);
+   // Setup differential drive
+   ddController.velocity = .05f;
+   // Setup PID controllers
+   l_pid_controller.dest = ddController.get_wheel_angular_velocity( LEFT_WHEEL );
+   r_pid_controller.dest = ddController.get_wheel_angular_velocity( RIGHT_WHEEL );
    Serial.begin(38400);
 }
 
@@ -97,19 +120,38 @@ void setup() {
 \** ======================================================================= **/
 
 void loop() {
-  set_power( 255, 0 );
   //test_sensors(true);
   long t = micros();
-  test_odom(t);
+  // Update encoders
+  l_a = left_encoder.update( t );
+  r_a = right_encoder.update( t);
+  // Update Differential Drive Controller
+  ddController.set_wheel_angular_velocity(RIGHT_WHEEL, r_a);
+  ddController.set_wheel_angular_velocity(LEFT_WHEEL, l_a);
+  // Update velocity beliefs
+  velocity = ddController.get_linear_speed();
+  angular_velocity = ddController.get_angular_velocity();
+
+  l_c += (int) l_pid_controller.update( l_a, t );
+  r_c += (int) r_pid_controller.update( r_a, t );
+  set_left_power( l_c, 0 );
+  set_right_power( r_c, 0 );
+  debug(t);
 }
 
-void test_odom(long t) {
-  float l_a = left_encoder.update( t );
-  float r_a = right_encoder.update( t);
+void debug(long t) {
   Serial.print( "L Angular Velocity: " );
   Serial.print( l_a * WHEEL_RADIUS);
   Serial.print( "\t R Angular Velocity: " );
-  Serial.println( r_a * WHEEL_RADIUS);
+  Serial.print( r_a * WHEEL_RADIUS);
+  Serial.print( "\tLinear Velocity: " );
+  Serial.print( velocity );
+  Serial.print( "\tAngular Velocity: " );
+  Serial.print( angular_velocity );
+  Serial.print("\tl_c: ");
+  Serial.print(l_c);
+  Serial.print("\tr_c: ");
+  Serial.println(r_c);
 }
 
 void test_sensors(bool csv) {
