@@ -3,7 +3,7 @@
 
 // Setup Constants 
 
-#define BAUD_RATE 115200
+#define BAUD_RATE 9600
 // Message Constants 
 
 #define MSG_SIZE 1

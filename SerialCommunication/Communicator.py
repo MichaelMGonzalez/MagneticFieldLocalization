@@ -15,6 +15,7 @@ class SerialComm:
         self.msg_sent = struct.pack( "c", chr([ v["value"] for v in json_obj["msgs"] if v["name"] == "MSG_SENT" ][0]  & 255) )
         self.baud_rate = int([ o["value"] for o in json_obj["setup"] if o["name"] == "BAUD_RATE" ][0])
         self.communicator = serial.Serial(port_name, self.baud_rate)
+    # Currently only will read a 4 byte floating point value
     def read(self):
         if self.communicator.in_waiting >=6: 
             f_b = ord(self.communicator.read())
@@ -24,8 +25,25 @@ class SerialComm:
                 sanity_byte = self.communicator.read()
                 if sanity_byte == self.msg_sent: 
                     print self.v_to_msg[f_b], struct.unpack("f",bs)[0]
-    def write(self,type,val):
-        self.communicator.write( struct.pack("c", chr( type & 255 ) ))
+    # Write a message
+    def write(self,m_type,val):
+	byte_vals = []
+	msg = struct.pack("c", chr( m_type & 255 ) )
+        if type( val ) == float:
+            byte_vals = bytes(struct.pack("f", val ))
+	#print struct.unpack("c",msg)
+	self.write_byte( msg )
+	self.write_byte( struct.pack("c", chr(0) ))
+	for b in byte_vals:
+	    self.write_byte( b )
+	self.write_byte( struct.pack("c", chr(0) ))
+	self.write_byte( self.msg_sent )
+    def write_byte( self, b ):
+        self.communicator.write(b)
+	self.sleep()
+    # Pause communicator for t seconds 
+    def sleep( self, t=.005 ):
+        time.sleep(t) 
 
 
 if __name__ == "__main__":
@@ -55,7 +73,6 @@ if __name__ == "__main__":
     i = 0
     msgs = [ 2 ** p for p in range(8) ]
     while state == "writing":
-        comm.write(msgs[7-i],i)
+        comm.write(msgs[i],12.25)
         i = (i + 1) % len(msgs)
-        time.sleep(.01)
     exit()
