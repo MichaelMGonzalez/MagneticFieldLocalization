@@ -47,10 +47,13 @@
         }
     ],
     "msgs" : [
-
         {
             "name"  : "MSG_SIZE",
             "value" : 1
+        },
+        {
+            "name"  : "MSG_SENT",
+            "value" : -86
         },
         {
             "name"  : "STOP",
