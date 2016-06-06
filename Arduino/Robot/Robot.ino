@@ -78,10 +78,10 @@ void setup() {
    led2.setup();
    button.setup();
    left_encoder.setup();
-   left_encoder.set_thresholds(1005, 970);
+   left_encoder.set_thresholds(934, 915);
    right_encoder.setup();
-   right_encoder.set_thresholds(1005, 970);
-   Serial.begin(BAUD_RATE);
+   right_encoder.set_thresholds(1017, 992);
+   Serial.begin(38400);
 }
 
 /** ======================================================================= **\
@@ -98,7 +98,18 @@ void setup() {
 
 void loop() {
   set_power( 255, 0 );
-  test_sensors(true);
+  //test_sensors(true);
+  long t = micros();
+  test_odom(t);
+}
+
+void test_odom(long t) {
+  float l_a = left_encoder.update( t );
+  float r_a = right_encoder.update( t);
+  Serial.print( "L Angular Velocity: " );
+  Serial.print( l_a * WHEEL_RADIUS);
+  Serial.print( "\t R Angular Velocity: " );
+  Serial.println( r_a * WHEEL_RADIUS);
 }
 
 void test_sensors(bool csv) {

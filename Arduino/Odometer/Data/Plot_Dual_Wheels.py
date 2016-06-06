@@ -7,12 +7,12 @@ import math as m
 
 
 # Right Rising Edge
-r_r_edge = 1007
+r_r_edge = 1017
 r_f_edge =  992
 
 # Left Rising Edge
-l_r_edge = 923
-l_f_edge = 900
+l_r_edge = 934
+l_f_edge = 915
 
 if len( sys.argv ) == 1:
     print "Please enter the csv file you want to plot!"
@@ -90,6 +90,6 @@ show_hist(map( rpm_to_v,  r_rpm))
 
 #print "Right Spoke Hits: ", 
 #extract_rpm(r_times)
-#plot()
+plot()
 
 

@@ -33,10 +33,9 @@ class IRWheelEncoder {
         uint8_t pin;
         bool waiting_for_edge;
         int detection_threshold, fallen_threshold;
-        int pegs_seen;
         int last_scan;
         long last_rising_edge;
-        long rotation_period;
+        float angular_velocity;
 };
 
 
