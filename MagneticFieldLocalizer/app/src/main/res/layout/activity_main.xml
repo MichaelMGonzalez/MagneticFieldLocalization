@@ -74,5 +74,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_log"/>
+        android:text="@string/button_log"
+        android:onClick="startLog" />
+    <Button
+        android:id="@+id/pause_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_pause"
+        android:onClick="pause"/>
 </LinearLayout>
