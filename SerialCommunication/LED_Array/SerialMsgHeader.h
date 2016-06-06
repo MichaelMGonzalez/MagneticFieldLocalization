@@ -3,11 +3,10 @@
 
 // Setup Constants 
 
-#define BAUD_RATE 38400
+#define BAUD_RATE 115200
 // Message Constants 
 
 #define MSG_SIZE 1
-#define MSG_SENT -86
 #define STOP 0
 #define MOVE_FORWARD_ANALOG 1
 #define MOVE_BACKWARD_ANALOG 2

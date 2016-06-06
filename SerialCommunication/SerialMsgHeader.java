@@ -2,7 +2,7 @@ public class SerialMsgHeader {
 
 	// Setup Constants 
 
-	public static final int BAUD_RATE = 9600;
+	public static final int BAUD_RATE = 38400;
 	// Message Constants 
 
 	public static final byte MSG_SIZE = 1;

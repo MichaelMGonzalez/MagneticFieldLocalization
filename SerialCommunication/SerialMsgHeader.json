@@ -43,7 +43,7 @@
     "setup" : [
         {
             "name"  : "BAUD_RATE",
-            "value" : 9600
+            "value" : 38400
         }
     ],
     "msgs" : [

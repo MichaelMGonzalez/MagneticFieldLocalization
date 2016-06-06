@@ -60,16 +60,19 @@ MomentaryButton button(MOMENTARYBUTTON1_SENSE);
 DifferentialDrive ddController = DifferentialDrive(WHEEL_RADIUS, DISTANCE_BETWEEN_WHEELS);
 IRWheelEncoder left_encoder = IRWheelEncoder(ENCODER_LEFT);
 IRWheelEncoder right_encoder = IRWheelEncoder(ENCODER_RIGHT);
-PIDController l_pid_controller = PIDController( 2.5, 0, 1);
-PIDController r_pid_controller = PIDController( 2.5, 0, 1);
+PIDController l_pid_controller = PIDController( 2.2, 0, 1);
+PIDController r_pid_controller = PIDController( 2.2, 0, 1);
 
 
 
 // State variables
+
+
 // Left Wheel's Angular Velocity
 float l_a = 0;
 // Right Wheel's Angular Velocity
 float r_a = 0;
+// Robot Velocities
 float velocity = 0;
 float angular_velocity = 0;
 
@@ -134,11 +137,18 @@ void loop() {
 
   l_c += (int) l_pid_controller.update( l_a, t );
   r_c += (int) r_pid_controller.update( r_a, t );
+  l_c = clamp_control_sig( l_c );
+  r_c = clamp_control_sig( r_c );
   set_left_power( l_c, 0 );
   set_right_power( r_c, 0 );
-  debug(t);
+  //debug(t);
 }
 
+
+
+int clamp_control_sig( int sig ) {
+  return min( 255, max( 0, sig ) );
+}
 void debug(long t) {
   Serial.print( "L Angular Velocity: " );
   Serial.print( l_a * WHEEL_RADIUS);
