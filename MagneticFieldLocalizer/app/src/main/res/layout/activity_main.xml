@@ -66,16 +66,17 @@
             android:textSize="23dp"
             android:paddingLeft="10dp"/>
     </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_reset"
-        android:onClick="resetTime"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_log"
         android:onClick="startLog" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_stop"
+        android:onClick="stopLog"/>
     <Button
         android:id="@+id/pause_button"
         android:layout_width="wrap_content"

@@ -29,11 +29,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     File file;
 
-    private long timestamp;
+    private long starttime;
+    private long currtime;
     private long time;
 
     boolean saveTimeStamp;
     boolean writeLog;
+    boolean timer;
 
 
     @Override
@@ -51,13 +53,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         y = (TextView) findViewById(R.id.y_axis);
         z = (TextView) findViewById(R.id.z_axis);
 
-        // Creating output file CSV format
-        file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS),"Magnetometer_output.txt");
-
         // Control/ locks
         saveTimeStamp = true;
         writeLog = false;
+        timer = true;
 
     }
 
@@ -88,7 +87,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             saveTimeStamp = false;
             setTimeStamp(event.timestamp);
         }
-        time = event.timestamp - timestamp;
+        currtime = event.timestamp;
+        if (timer)
+            time = currtime - starttime;
+
         // Displaying values
         timeView.setText(String.format("%.2f",((double)(time)/Math.pow(10,9)))+"s");
         teslaView.setText(mag);
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void setTimeStamp (long newTimeStamp) {
-        timestamp = newTimeStamp;
+        starttime = newTimeStamp;
     }
     /* Writes output to a file named Magnetometer_output.txt (saved in downloads folder)
         Format magnitude,x_val,y_val,z_val,timestamp
@@ -126,12 +128,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } catch(java.io.IOException e ){}
     }
     // BUTTONS!
-    public void resetTime(View view) {
-        saveTimeStamp = true;
+    public void stopLog(View view) {
+        writeLog = false;
+        timer = false;
     }
+
     public void startLog(View view) {
-       writeLog = true;
+        writeLog = true;
+        saveTimeStamp = true;
+        timer = true;
+        // Creating output file CSV format
+        file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS),"Magnetometer_Output"+Long.toString(currtime)+".txt");
     }
+
     public void pause(View view) {
         onPause();
 
