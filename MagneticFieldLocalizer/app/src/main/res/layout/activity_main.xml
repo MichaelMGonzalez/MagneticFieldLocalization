@@ -5,10 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ashmp.magneticfieldlocalizer.MainActivity">
 
     <LinearLayout
@@ -68,14 +64,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:02"
-            android:textSize="30dp"
+            android:textSize="23dp"
             android:paddingLeft="10dp"/>
     </LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_reset"
-        android:onClick="startTime"/>
+        android:onClick="resetTime"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

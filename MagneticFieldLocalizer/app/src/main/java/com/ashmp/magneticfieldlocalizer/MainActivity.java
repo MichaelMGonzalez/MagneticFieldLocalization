@@ -16,6 +16,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView timeView;
     TextView teslaView;
     TextView x,y,z;
+
+    boolean saveTimeStamp = true;
+    private long timestamp;
+    private long time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        timeView.setText();
+
     }
 
     protected void onResume() {
@@ -50,7 +55,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float magnitude = (float)Math.sqrt(Math.pow(magnetic_vector[0],2)+Math.pow(magnetic_vector[1],2)+Math.pow(magnetic_vector[2],2));
         String mag = String.format("%.3f",magnitude);
 
+        if (saveTimeStamp) {
+            saveTimeStamp = false;
+            setTimeStamp(event.timestamp);
+        }
+        time = event.timestamp - timestamp;
         // Displaying values
+        timeView.setText(String.format("%.2f",((double)(time)/Math.pow(10,9)))+"s");
         teslaView.setText(mag);
 
         x.setText("x-axis: "+String.format("%.3f",magnetic_vector[0]));
@@ -62,8 +73,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // Will be used I think
     }
 
-    public void startTime(View view) {
+    public void setTimeStamp (long newTimeStamp) {
+        timestamp = newTimeStamp;
+    }
 
+    public void resetTime(View view) {
+        saveTimeStamp = true;
+        //setTimeStamp(0);
     }
     public void onAccuracyChanged(Sensor s, int i) {
         //not used - needed here because it's and abstract method in SensorEventListener
