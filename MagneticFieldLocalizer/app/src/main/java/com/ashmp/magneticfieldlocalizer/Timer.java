@@ -9,9 +9,10 @@ public class Timer {
     long startTime = 0;
 
     void setStartTime() {
-        startTime = Calendar.get(Calendar.getInstance(), Calendar.MILLISECOND);
+       // startTime = Calendar.get(Calendar.getInstance(), Calendar.MILLISECOND);
     }
     long getTime() {
-        return (Calendar.get(Calendar.getInstance(), Calendar.MILLISECOND) - startTime)
+        //return (Calendar.get(Calendar.getInstance(), Calendar.MILLISECOND) - startTime)
+        return 0;
     }
 }

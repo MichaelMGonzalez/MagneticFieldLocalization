@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Magnetic Field Localizer</string>
+    <string name="app_name">Magnetic Field Readings</string>
     <string name="button_reset">Reset Time</string>
     <string name="button_log">Start Log</string>
 
