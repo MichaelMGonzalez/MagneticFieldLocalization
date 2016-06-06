@@ -46,8 +46,8 @@
 #define DISTANCESENSOR1_A A0
 #define DISTANCESENSOR2_A A1
 #define DISTANCESENSOR3_A A2
-#define ENCODER1 A3
-#define ENCODER2 A4
+#define ENCODER_LEFT A3
+#define ENCODER_RIGHT A4
 
 /** ======================================================================= **\
 |** ------------------------- Object Declarations ------------------------- **|
@@ -58,8 +58,8 @@ LED led1(LED1_CONTROL);
 LED led2(LED2_CONTROL);
 MomentaryButton button(MOMENTARYBUTTON1_SENSE);
 DifferentialDrive ddController = DifferentialDrive(WHEEL_RADIUS, DISTANCE_BETWEEN_WHEELS);
-IRWheelEncoder ir_encoder1 = IRWheelEncoder(ENCODER1);
-IRWheelEncoder ir_encoder2 = IRWheelEncoder(ENCODER2);
+IRWheelEncoder left_encoder = IRWheelEncoder(ENCODER_LEFT);
+IRWheelEncoder right_encoder = IRWheelEncoder(ENCODER_RIGHT);
 PIDController pidController = PIDController( 1, 0, 1);
 
 /** ======================================================================= **\
@@ -77,10 +77,10 @@ void setup() {
    led1.setup();
    led2.setup();
    button.setup();
-   ir_encoder1.setup();
-   ir_encoder1.set_thresholds(1005, 970);
-   ir_encoder2.setup();
-   ir_encoder2.set_thresholds(1005, 970);
+   left_encoder.setup();
+   left_encoder.set_thresholds(1005, 970);
+   right_encoder.setup();
+   right_encoder.set_thresholds(1005, 970);
    Serial.begin(BAUD_RATE);
 }
 
@@ -97,8 +97,38 @@ void setup() {
 \** ======================================================================= **/
 
 void loop() {
-  motor.move(1,110,0);
+  set_power( 255, 0 );
+  test_sensors(true);
 }
+
+void test_sensors(bool csv) {
+  int val_1 = analogRead(ENCODER_LEFT);
+  int val_2 = analogRead(ENCODER_RIGHT);
+  String before_left  = csv ? ""   : "Left Sensor: ";
+  String before_right = csv ? ", " : "\tRight Sensor: ";
+  String before_time  = csv ? ", " : "\t Time Stamp: ";  
+  Serial.print(before_left);
+  Serial.print( val_1 );
+  Serial.print(before_right);
+  Serial.print( val_2 );
+  Serial.print(before_time);
+  Serial.println( micros() );
+
+}
+
+void set_right_power( int val, int dir ) {
+  motor.move(1, val, dir);
+}
+
+void set_left_power( int val, int dir ) {
+  motor.move(0, val, dir);
+}
+
+void set_power( int val, int dir ) {
+  set_right_power( val, dir );
+  set_left_power( val, dir );
+}
+
 
 
 
