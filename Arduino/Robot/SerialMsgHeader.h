@@ -9,7 +9,7 @@
 #define MSG_SIZE 1
 #define MSG_SENT -86
 #define STOP 0
-#define MOVE_FORWARD_ANALOG 1
+#define MOVE_FORWARD 1
 #define MOVE_BACKWARD_ANALOG 2
 #define TURN_LEFT_ANALOG 3
 #define TURN_RIGHT_ANALOG 4

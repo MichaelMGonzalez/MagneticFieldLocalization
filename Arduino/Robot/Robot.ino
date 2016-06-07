@@ -103,17 +103,30 @@ void setup() {
    led1.setup();
    led2.setup();
    button.setup();
-   // Setup encoders
-   left_encoder.setup();
-   left_encoder.set_thresholds(934, 915);
-   right_encoder.setup();
-   right_encoder.set_thresholds(1017, 992);
+   reset();
    // Setup differential drive
    ddController.velocity = .05f;
    // Setup PID controllers
    l_pid_controller.dest = ddController.get_wheel_angular_velocity( LEFT_WHEEL );
    r_pid_controller.dest = ddController.get_wheel_angular_velocity( RIGHT_WHEEL );
    Serial.begin(BAUD_RATE);
+}
+
+void reset() {
+   // Setup encoders
+   long t = micros();
+   left_encoder.setup();
+   left_encoder.set_thresholds(934, 915);
+   right_encoder.setup();
+   right_encoder.set_thresholds(1017, 992);
+   l_pid_controller.setup( t );
+   r_pid_controller.setup( t );
+   l_a = 0;
+   r_a = 0;
+   velocity = 0;
+   angular_velocity = 0;
+   l_c = 0;
+   r_c = 0;
 }
 
 /** ======================================================================= **\
@@ -135,11 +148,13 @@ void loop() {
           PIDLoop();
 	  break;
   }
+  report_values();
 }
 
 void report_values() {
   
   //send_float( REPORTING_STATE, state );
+  send_int(REPORTING_STATE, state);
   send_float( REPORTING_VELOCITY, velocity );
   send_float( REPORTING_ANGULAR_VELOCITY, angular_velocity);
   send_float( REPORTING_L_ANGULAR_VELOCITY, l_a );
@@ -148,7 +163,6 @@ void report_values() {
   send_float( REPORTING_D, d );
   send_float( REPORTING_R_C_DEST, r_pid_controller.dest );
   send_float( REPORTING_L_C_DEST, l_pid_controller.dest);
-  send_int(REPORTING_STATE, state);
   send_int(REPORTING_R_CONTROL, r_c );
   send_int(REPORTING_L_CONTROL, l_c );
 }
@@ -169,6 +183,22 @@ void send_int( byte state, int i ) {
 }
 
 void serialEvent() {
+ if( Serial.available() > 1) {
+   byte msg = Serial.read();
+   if( Serial.peek() == (byte)MSG_SENT ) {
+     switch( msg ) {
+       case STOP:
+         state = IDLE;
+         motor.stop();
+         break;
+       case MOVE_FORWARD:
+         state = MOVING;
+         reset();
+         break;
+     }
+   }
+   
+ }
 }
 
 
@@ -196,7 +226,7 @@ void PIDLoop() {
   set_left_power( l_c, 0 );
   set_right_power( r_c, 0 );
   //debug(t);
-  report_values();
+
 
 }
 
