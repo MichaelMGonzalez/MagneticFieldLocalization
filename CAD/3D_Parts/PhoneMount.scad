@@ -21,9 +21,11 @@ casing_height = phone_height * .3 + global_correction;
 
 screw_mount_placement =  ( .95 * phone_width ) / 2;
 
+FullStand();
 
 // Uncomment the below line to get the 2d projection
 //projection( cut=true)
+module FullStand() {
 	union() {
 		// Draw primary stand
 		//rotate(90) 
@@ -47,7 +49,7 @@ screw_mount_placement =  ( .95 * phone_width ) / 2;
 			DrawCase();  
 		}
 	}
-
+}
 
 //translate( [0,0,80] )
 //DrawPhone();
@@ -72,7 +74,11 @@ module HorizontalSupport(height=10) {
 
 module BaseStation() {
 	union () {
+		difference() {
 		cube( [screw_mount_placement * 2, casing_depth, 3] , center=true);
+		scale([.63,1,1])
+		cube( [screw_mount_placement * 2, casing_depth, 3] , center=true);
+		}
 		ScrewMount( screw_mount_placement,0,0);
 		ScrewMount( -1 * screw_mount_placement,0,0);
 	}

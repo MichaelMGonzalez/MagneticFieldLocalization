@@ -4,34 +4,44 @@ import struct
 import json
 import sys
 import time
+import random as r
 class SerialComm:
     def __init__(self, port_name=None, file_path = "SerialMsgHeader.json"):        
         # Load config file
 	if port_name is None:
 	    if os.name == "nt": port_name = "COM5"
-	    else: port_name = "/dev/ttyACM0"
+	    #else: port_name = "/dev/ttyACM0"
+	    else: port_name = "/dev/ttyUSB0"
         json_obj = json.load(open(file_path))
+	self.config = json_obj
         self.v_to_msg = dict( [int(v["value"]),v["name"]] for v in json_obj["msgs"] )
+        self.msg_to_type = dict( [v["name"],v["type"]] for v in json_obj["msgs"] )
         self.msg_sent = struct.pack( "c", chr([ v["value"] for v in json_obj["msgs"] if v["name"] == "MSG_SENT" ][0]  & 255) )
         self.baud_rate = int([ o["value"] for o in json_obj["setup"] if o["name"] == "BAUD_RATE" ][0])
         self.communicator = serial.Serial(port_name, self.baud_rate)
     # Currently only will read a 4 byte floating point value
     def read(self):
-        if self.communicator.in_waiting >=6: 
+        if self.communicator.inWaiting >=6: 
             f_b = ord(self.communicator.read())
-        #print f_b
+            #print f_b
             if f_b in self.v_to_msg:
-                bs = self.communicator.read(size=4)
+		msg = self.v_to_msg[f_b]
+		t = None
+		if self.msg_to_type[msg] == "float":
+		    t = "f"
+                    bs = self.communicator.read(size=4)
+		if self.msg_to_type[msg] == "int":
+		    t = "h"
+                    bs = self.communicator.read(size=2)
                 sanity_byte = self.communicator.read()
-                if sanity_byte == self.msg_sent: 
-                    print self.v_to_msg[f_b], struct.unpack("f",bs)[0]
+                if t and sanity_byte == self.msg_sent: 
+                    return self.v_to_msg[f_b], struct.unpack(t,bs)[0]
     # Write a message
     def write(self,m_type,val):
 	byte_vals = []
 	msg = struct.pack("c", chr( m_type & 255 ) )
         if type( val ) == float:
             byte_vals = bytes(struct.pack("f", val ))
-	#print struct.unpack("c",msg)
 	self.write_byte( msg )
 	self.write_byte( struct.pack("c", chr(0) ))
 	for b in byte_vals:
@@ -73,6 +83,6 @@ if __name__ == "__main__":
     i = 0
     msgs = [ 2 ** p for p in range(8) ]
     while state == "writing":
-        comm.write(msgs[i],12.25)
+        comm.write(msgs[i],r.gauss(0, 10.0))
         i = (i + 1) % len(msgs)
     exit()

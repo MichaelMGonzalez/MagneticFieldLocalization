@@ -49,6 +49,29 @@
 #define ENCODER_LEFT A3
 #define ENCODER_RIGHT A4
 
+// State constants
+
+#define MOVING 0
+#define IDLE 1
+
+// State variables
+uint8_t state = MOVING;
+
+// Left Wheel's Angular Velocity
+float l_a = 0;
+// Right Wheel's Angular Velocity
+float r_a = 0;
+// Robot Velocities
+float velocity = 0;
+float angular_velocity = 0;
+
+// Wheel Control values
+float l_c = 0;
+float r_c = 0;
+
+// PID Values
+float p = 1.8;
+float d = -.5;
 /** ======================================================================= **\
 |** ------------------------- Object Declarations ------------------------- **|
 \** ======================================================================= **/
@@ -60,26 +83,9 @@ MomentaryButton button(MOMENTARYBUTTON1_SENSE);
 DifferentialDrive ddController = DifferentialDrive(WHEEL_RADIUS, DISTANCE_BETWEEN_WHEELS);
 IRWheelEncoder left_encoder = IRWheelEncoder(ENCODER_LEFT);
 IRWheelEncoder right_encoder = IRWheelEncoder(ENCODER_RIGHT);
-PIDController l_pid_controller = PIDController( 2.2, 0, 1);
-PIDController r_pid_controller = PIDController( 2.2, 0, 1);
 
-
-
-// State variables
-
-
-// Left Wheel's Angular Velocity
-float l_a = 0;
-// Right Wheel's Angular Velocity
-float r_a = 0;
-// Robot Velocities
-float velocity = 0;
-float angular_velocity = 0;
-
-// Wheel Control values
-int l_c = 0;
-int r_c = 0;
-
+PIDController l_pid_controller = PIDController( p, 0, d);
+PIDController r_pid_controller = PIDController( p, 0, d);
 
 
 /** ======================================================================= **\
@@ -107,7 +113,7 @@ void setup() {
    // Setup PID controllers
    l_pid_controller.dest = ddController.get_wheel_angular_velocity( LEFT_WHEEL );
    r_pid_controller.dest = ddController.get_wheel_angular_velocity( RIGHT_WHEEL );
-   Serial.begin(38400);
+   Serial.begin(BAUD_RATE);
 }
 
 /** ======================================================================= **\
@@ -124,6 +130,50 @@ void setup() {
 
 void loop() {
   //test_sensors(true);
+  switch( state ) {
+      case MOVING:
+          PIDLoop();
+	  break;
+  }
+}
+
+void report_values() {
+  
+  //send_float( REPORTING_STATE, state );
+  send_float( REPORTING_VELOCITY, velocity );
+  send_float( REPORTING_ANGULAR_VELOCITY, angular_velocity);
+  send_float( REPORTING_L_ANGULAR_VELOCITY, l_a );
+  send_float( REPORTING_R_ANGULAR_VELOCITY, r_a );
+  send_float( REPORTING_P, p );
+  send_float( REPORTING_D, d );
+  send_float( REPORTING_R_C_DEST, r_pid_controller.dest );
+  send_float( REPORTING_L_C_DEST, l_pid_controller.dest);
+  send_int(REPORTING_STATE, state);
+  send_int(REPORTING_R_CONTROL, r_c );
+  send_int(REPORTING_L_CONTROL, l_c );
+}
+
+
+void send_float( byte state, float f ) {
+  Serial.write( state );
+  byte * buf = (byte * ) &f;
+  Serial.write( buf, 4 );
+  Serial.write( MSG_SENT );
+}
+
+void send_int( byte state, int i ) {
+  Serial.write( state );
+  byte * buf = (byte * ) &i;
+  Serial.write( buf, 2 );
+  Serial.write( MSG_SENT );
+}
+
+void serialEvent() {
+}
+
+
+
+void PIDLoop() {
   long t = micros();
   // Update encoders
   l_a = left_encoder.update( t );
@@ -135,20 +185,26 @@ void loop() {
   velocity = ddController.get_linear_speed();
   angular_velocity = ddController.get_angular_velocity();
 
-  l_c += (int) l_pid_controller.update( l_a, t );
-  r_c += (int) r_pid_controller.update( r_a, t );
+  l_c += l_pid_controller.update( l_a, t );
+  r_c += r_pid_controller.update( r_a, t );
   l_c = clamp_control_sig( l_c );
   r_c = clamp_control_sig( r_c );
+  if( l_c == 0 )
+    left_encoder.setup();
+  if( r_c == 0 )
+    right_encoder.setup();
   set_left_power( l_c, 0 );
   set_right_power( r_c, 0 );
   //debug(t);
+  report_values();
+
 }
 
 
-
-int clamp_control_sig( int sig ) {
+float clamp_control_sig( float sig ) {
   return min( 255, max( 0, sig ) );
 }
+
 void debug(long t) {
   Serial.print( "L Angular Velocity: " );
   Serial.print( l_a * WHEEL_RADIUS);

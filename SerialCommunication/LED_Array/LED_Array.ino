@@ -17,19 +17,23 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   matrix.setRotation(3);
-  if(Serial.available()) {
+
+}
+
+void serialEvent() {
+    while(Serial.available()) {
     int readIn = Serial.read();
     toPrint = String(readIn);
-    matrix.clear();
     draws[p_idx] = readIn;
     p_idx = (p_idx+1)%8;
+    matrix.clear();
     for( int i = 0; i < 8; i++ ) {
       drawByte(i, draws[i]);
     }
-    matrix.writeDisplay();
   }
+  
+  matrix.writeDisplay();
 }
-
 
 
 void drawByte( int x, byte b ) {
