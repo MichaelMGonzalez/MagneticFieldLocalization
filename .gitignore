@@ -13,3 +13,4 @@ PIDController/pid_sim.csv
 *.b#*
 *.s#*
 *.l#*
+*.pyc
