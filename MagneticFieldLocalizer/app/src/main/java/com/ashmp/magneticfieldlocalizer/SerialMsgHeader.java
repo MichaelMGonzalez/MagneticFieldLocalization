@@ -1,3 +1,5 @@
+package com.ashmp.magneticfieldlocalizer;
+
 public class SerialMsgHeader {
 
 	// Setup Constants 
