@@ -1,16 +1,15 @@
 package com.ashmp.magneticfieldlocalizer;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.annotation.FloatRange;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,19 +28,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     File file;
 
-    private long starttime;
     private long currtime;
     private long time;
 
     boolean saveTimeStamp;
-    boolean writeLog;
     boolean timer;
 
+    Logger fileLog = new Logger();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // Control/ locks
         saveTimeStamp = true;
-        writeLog = false;
         timer = true;
 
     }
@@ -85,61 +83,40 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (saveTimeStamp) {
             saveTimeStamp = false;
-            setTimeStamp(event.timestamp);
+            fileLog.setTimeStamp(event.timestamp);
         }
-        currtime = event.timestamp;
-        if (timer)
-            time = currtime - starttime;
 
+        if (timer)
+            time = event.timestamp - fileLog.getTimeStamp();
+        currtime = event.timestamp;
         // Displaying values
         timeView.setText(String.format("%.2f",((double)(time)/Math.pow(10,9)))+"s");
         teslaView.setText(mag);
 
-        x.setText("x-axis: "+String.format("%.3f",magnetic_vector[0]));
-        y.setText("y-axis: "+String.format("%.3f",magnetic_vector[1]));
-        z.setText("z-axis: "+String.format("%.3f",magnetic_vector[2]));
+        float x_val = magnetic_vector[0];
+        float y_val = magnetic_vector[1];
+        float z_val = magnetic_vector[2];
 
-        if (writeLog)
-            writeToFile(magnitude,magnetic_vector[0],magnetic_vector[1],magnetic_vector[2]);
-       // teslaView.setText("I GOT CALLED TOO");
-        // Will be used I think
+        x.setText("x-axis: "+String.format("%.3f",x_val));
+        y.setText("y-axis: "+String.format("%.3f",y_val));
+        z.setText("z-axis: "+String.format("%.3f",z_val));
+
+        String output = Float.toString(magnitude)+","+Float.toString(x_val)+","+Float.toString(y_val)+","+Float.toString(z_val)+
+                ","+Long.toString(time);
+        fileLog.writeLog(output);
     }
 
-    public void setTimeStamp (long newTimeStamp) {
-        starttime = newTimeStamp;
-    }
-    /* Writes output to a file named Magnetometer_output.txt (saved in downloads folder)
-        Format magnitude,x_val,y_val,z_val,timestamp
-     */
-    public void writeToFile(float mag, float x_val, float y_val, float z_val) {
-
-        FileOutputStream outputStream;
-        try {
-            if (!file.exists()){
-                file.createNewFile();
-            }
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile(),true));
-            writer.append(Float.toString(mag)+","+Float.toString(x_val)+","+Float.toString(y_val)+",");
-            writer.append(Float.toString(z_val)+","+Long.toString(time));
-            writer.newLine();
-            writer.flush();
-            writer.close();
-
-        } catch(java.io.IOException e ){}
-    }
     // BUTTONS!
     public void stopLog(View view) {
-        writeLog = false;
+        fileLog.endLog();
         timer = false;
     }
 
     public void startLog(View view) {
-        writeLog = true;
+        fileLog.CreateNewLog("Magnetometer_Output"+Long.toString(currtime)+".txt");
         saveTimeStamp = true;
         timer = true;
-        // Creating output file CSV format
-        file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS),"Magnetometer_Output"+Long.toString(currtime)+".txt");
+
     }
 
     public void pause(View view) {
