@@ -11,7 +11,7 @@ byte  draws [] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 void setup() {
   // put your setup code here, to run once:
   matrix.begin(0x70);
-  Serial.begin(38400);
+  Serial.begin(9600);
 }
 
 void loop() {

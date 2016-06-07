@@ -16,9 +16,12 @@ class SerialComm:
 	self.config = json_obj
         self.v_to_msg = dict( [int(v["value"]),v["name"]] for v in json_obj["msgs"] )
         self.msg_to_type = dict( [v["name"],v["type"]] for v in json_obj["msgs"] )
+        self.msg_to_v = dict( [v["name"],v["value"]] for v in json_obj["msgs"] )
         self.msg_sent = struct.pack( "c", chr([ v["value"] for v in json_obj["msgs"] if v["name"] == "MSG_SENT" ][0]  & 255) )
         self.baud_rate = int([ o["value"] for o in json_obj["setup"] if o["name"] == "BAUD_RATE" ][0])
         self.communicator = serial.Serial(port_name, self.baud_rate)
+    def close(self):
+        self.communicator.close()
     # Currently only will read a 4 byte floating point value
     def read(self):
         if self.communicator.inWaiting >=6: 
@@ -43,10 +46,10 @@ class SerialComm:
         if type( val ) == float:
             byte_vals = bytes(struct.pack("f", val ))
 	self.write_byte( msg )
-	self.write_byte( struct.pack("c", chr(0) ))
+	#self.write_byte( struct.pack("c", chr(0) ))
 	for b in byte_vals:
 	    self.write_byte( b )
-	self.write_byte( struct.pack("c", chr(0) ))
+	#self.write_byte( struct.pack("c", chr(0) ))
 	self.write_byte( self.msg_sent )
     def write_byte( self, b ):
         self.communicator.write(b)

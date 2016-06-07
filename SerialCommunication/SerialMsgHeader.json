@@ -63,8 +63,8 @@
             "value" : 0 
         },
         {
-            "name"  : "MOVE_FORWARD_ANALOG",
-	    "type"  : "float",
+            "name"  : "MOVE_FORWARD",
+	    "type"  : "cmd",
             "value" : 1 
         },
         {
