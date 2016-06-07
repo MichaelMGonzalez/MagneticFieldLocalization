@@ -24,4 +24,27 @@ public class SerialConverter {
 
         return bytes;
     }
+
+    static public byte[] writeInt(Byte msgtype, int i) {
+
+        byte[] bytes = new byte[4];
+        bytes[0] = msgtype;
+
+        bytes[1] = (byte)(i);
+        bytes[2] = (byte)(i >> 8);
+
+        bytes[3] = SerialMsgHeader.MSG_SENT;
+
+        return bytes;
+    }
+
+    static public byte[] writeCommand(Byte msgtype) {
+        byte[] bytes = new byte[2];
+
+        bytes[0] = msgtype;
+        bytes[1] = SerialMsgHeader.MSG_SENT;
+
+        return bytes;
+    }
+
 }
