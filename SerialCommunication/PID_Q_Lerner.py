@@ -1,5 +1,7 @@
 from numpy import linspace
 import random as rand
+import json
+import pickle
 space = "\t" 
 nl = "\n"
 n_fmt = "{0:.2f}"
@@ -38,6 +40,26 @@ class PIDNode:
 	elif edge_pos == "W": node = self.west  
 	if node: rv = n_fmt.format( node.weight )
 	return rv
+    def dump( self ):
+        rv  =  { 
+	         "p"     : self.p,
+	         "i"     : self.i,
+	         "d"     : self.d,
+	         "times" : self.times
+	       }
+	if self.north: rv["q_n"] = self.north.weight
+	if self.south: rv["q_s"] = self.south.weight
+	if self.east : rv["q_e"] = self.east.weight
+	if self.west : rv["q_w"] = self.west.weight
+	return rv
+    def load( self, d ):
+        self.p = d["p"]
+        self.i = d["i"]
+        self.d = d["d"]
+	if "q_n" in d: self.north.weight = d["q_n"]
+	if "q_e" in d: self.east.weight  = d["q_e"]
+	if "q_s" in d: self.south.weight = d["q_s"]
+	if "q_w" in d: self.west.weight  = d["q_w"]
 
         
 class Edge:
@@ -51,6 +73,7 @@ class Edge:
     def __str__(self):
         return "Weight: " + str(self.weight)
 class SearchSpace:
+    #def dump( self ):
     def __init__(self, res=7, p_min=1, p_max=3, d_min=-2, d_max=2):
         self.res = res
 	self.space = []
@@ -58,7 +81,7 @@ class SearchSpace:
         ds = linspace( d_min, d_max, res)
 	self.create_nodes(ps,ds)
 	self.create_adjacency_list()
-	self.active = None
+	self.active = self.space[0][0]
     def create_nodes(self, ps, ds):
 	r = 0
         for p in ps: 
@@ -82,6 +105,29 @@ class SearchSpace:
         r = int(rand.uniform(0, self.res))
         c = int(rand.uniform(0, self.res))
 	return self.space[r][c]
+    def dump( self ):
+	rv = { "Resolution" : self.res,
+	       "Nodes"      : [] }
+        for r in self.space:
+	    for c in r:
+	        rv["Nodes"].append( c.dump() )
+        return json.dumps(rv)
+    def dump_to_file( self, f ):
+        dump = self.dump()
+	fd = open(f, "w")
+	fd.write(dump)
+	fd.close()
+    def load_from_file( self, f):
+	fd = open(f)
+        j = json.load(fd)
+	self.__init__(res=j["Resolution"])
+	nodes = j["Nodes"]
+	nodes.sort( key=lambda node: node["p"])
+	idx = 0
+	for r in self.space:
+	    for c in r:
+	        c.load( nodes[idx ] ) 
+		idx += 1
     def __str__( self ):
         rv = "\tPID Space\tResolution: " + str(self.res) + "\tActive Node: " + self.active.point_repr() + nl
 	for r in self.space:
@@ -100,5 +146,10 @@ class SearchSpace:
 	return "|" + (len(mid)-1)*"-"+ "|"  + nl + rv
 
 if __name__ == "__main__":
-    s = SearchSpace(res=8)
+    s = SearchSpace(res=6)
+    encoder = json.JSONEncoder()
+    #print encoder.default() 
+    n = s.space[0][0] 
+    s.load_from_file( "test.json" ) 
+    #s.dump_to_file( "test.json" ) 
     print s
