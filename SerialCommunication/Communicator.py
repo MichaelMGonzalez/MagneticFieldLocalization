@@ -42,7 +42,6 @@ class SerialComm:
     def write(self,m_type,val):
 	if type(m_type) is str: 
 	    m_type = self.msg_to_v[m_type]
-	print m_type
 	byte_vals = []
 	msg = struct.pack("c", chr( m_type & 255 ) )
         if type( val ) == float:

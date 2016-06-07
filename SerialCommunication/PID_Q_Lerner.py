@@ -8,6 +8,7 @@ class PIDNode:
         self.p = p
         self.i = i
         self.d = d
+	self.times = []
 	self.edges = []
 	self.north = None
 	self.east  = None
@@ -19,11 +20,11 @@ class PIDNode:
         rv += "D: " + str(self.d) + space
 	return rv
     def point_repr(self):
-        return  str( n_fmt.format(self.p) + "," + n_fmt.format(self.d)) 
+        return  "("+str( n_fmt.format(self.p) + "," + n_fmt.format(self.d))+")" 
     def get_min_edge( self ):
-        return min( c.edges, key=lambda n: n.weight )
+        return min( self.edges, key=lambda n: n.weight )
     def add_edge( self, node, pos ):
-        self.edges.append( pos )
+        self.edges.append( node )
 	if   pos == "N": self.north = node
 	elif pos == "E": self.east  = node
 	elif pos == "S": self.south = node
@@ -57,6 +58,7 @@ class SearchSpace:
         ds = linspace( d_min, d_max, res)
 	self.create_nodes(ps,ds)
 	self.create_adjacency_list()
+	self.active = None
     def create_nodes(self, ps, ds):
 	r = 0
         for p in ps: 
@@ -81,7 +83,7 @@ class SearchSpace:
         c = int(rand.uniform(0, self.res))
 	return self.space[r][c]
     def __str__( self ):
-        rv = "\tPID Space\tResolution: " + str(self.res) + nl
+        rv = "\tPID Space\tResolution: " + str(self.res) + "\tActive Node: " + self.active.point_repr() + nl
 	for r in self.space:
 	    top = "|"
 	    mid = "|"
