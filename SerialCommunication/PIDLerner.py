@@ -15,6 +15,8 @@ class PIDLerner:
         self.state = {}
 	self.reset()
 	self.times = []
+        self.stop_sig = self.arduino.msg_to_v["STOP"]
+        self.move_sig = self.arduino.msg_to_v["MOVE_FORWARD"]
     def reset(self):
         self.stable_t = inf
         self.sim_start = time.time()
@@ -39,34 +41,32 @@ class PIDLerner:
 	    print "Stable for", s_t, "seconds"
 	    print "Time:", t - self.sim_start
 	    print "Times Collected:", self.times
-    def check_threshold( self, t )
+    def check_threshold( self, t ):
 	# Has the threshold been reached?
         if abs(self.p_f) < stable_factor:
    	    if not self.stable_t: self.stable_t = t
 	    if t-self.stable_t > count_until: 
 	        self.times.append( t - self.sim_start )
-	        self.arduino.write(stop_sig, None)
+	        self.arduino.write(self.stop_sig, None)
 	        self.print_state()
 	        time.sleep(2)
 	        self.reset()
-	        self.arduino.write(move_sig, None)
-	        state["REPORTING_STATE"] = 0
+	        self.arduino.write(self.move_sig, None)
+	        self.state["REPORTING_STATE"] = 0
+	else: self.stable_t = 0 
     def run_lerner(self):
-      stop_sig = self.arduino.msg_to_v["STOP"]
-      move_sig = self.arduino.msg_to_v["MOVE_FORWARD"]
-      self.arduino.write(move_sig, None)
+      self.arduino.write(self.move_sig, None)
       try:
 	  state = self.state
           while True:
+            t = time.time()
 	    self.p_f = (self.l_o_f * self.r_o_f) 
-	    check_threshold()
+	    self.check_threshold(t)
 	    v = None
 	    if self.arduino.communicator.inWaiting():
                 v = self.arduino.read()
-	    else: self.stable_t = 0 
 	    if v:
 	        msg,val = v
-                t = time.time()
 	        # Has state changed?
 	        if msg in state and val == state[msg]: continue
 	        if str(msg) == "REPORTING_R_CONTROL" and msg in state:
