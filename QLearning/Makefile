@@ -1,2 +1,5 @@
+prog = PID_Q_Lerner.py
+copy:
+	cp $(prog) ../SerialCommunication/$(prog)
 test:
-	python PID_Q_Lerner.py
+	python $(prog)

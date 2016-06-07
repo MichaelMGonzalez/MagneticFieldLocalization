@@ -26,7 +26,6 @@ class SerialComm:
     def read(self):
         if self.communicator.inWaiting >=6: 
             f_b = ord(self.communicator.read())
-            #print f_b
             if f_b in self.v_to_msg:
 		msg = self.v_to_msg[f_b]
 		t = None
@@ -41,6 +40,9 @@ class SerialComm:
                     return self.v_to_msg[f_b], struct.unpack(t,bs)[0]
     # Write a message
     def write(self,m_type,val):
+	if type(m_type) is str: 
+	    m_type = self.msg_to_v[m_type]
+	print m_type
 	byte_vals = []
 	msg = struct.pack("c", chr( m_type & 255 ) )
         if type( val ) == float:
@@ -55,7 +57,7 @@ class SerialComm:
         self.communicator.write(b)
 	self.sleep()
     # Pause communicator for t seconds 
-    def sleep( self, t=.005 ):
+    def sleep( self, t=.000 ):
         time.sleep(t) 
 
 

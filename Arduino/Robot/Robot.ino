@@ -55,7 +55,7 @@
 #define IDLE 1
 
 // State variables
-uint8_t state = MOVING;
+uint8_t state = IDLE;
 
 // Left Wheel's Angular Velocity
 float l_a = 0;
@@ -159,8 +159,8 @@ void report_values() {
   send_float( REPORTING_ANGULAR_VELOCITY, angular_velocity);
   send_float( REPORTING_L_ANGULAR_VELOCITY, l_a );
   send_float( REPORTING_R_ANGULAR_VELOCITY, r_a );
-  send_float( REPORTING_P, p );
-  send_float( REPORTING_D, d );
+  send_float( REPORTING_P, l_pid_controller.p );
+  send_float( REPORTING_D, l_pid_controller.d );
   send_float( REPORTING_R_C_DEST, r_pid_controller.dest );
   send_float( REPORTING_L_C_DEST, l_pid_controller.dest);
   send_int(REPORTING_R_CONTROL, r_c );
@@ -181,11 +181,15 @@ void send_int( byte state, int i ) {
   Serial.write( buf, 2 );
   Serial.write( MSG_SENT );
 }
-
+bool is_msg_valid( ) {
+  bool rv = Serial.peek() == (byte)MSG_SENT;
+  return rv;
+}
 void serialEvent() {
  if( Serial.available() > 1) {
    byte msg = Serial.read();
-   if( Serial.peek() == (byte)MSG_SENT ) {
+   // Is the message a direct command?
+   if( is_msg_valid() ) {
      switch( msg ) {
        case STOP:
          state = IDLE;
@@ -197,7 +201,33 @@ void serialEvent() {
          break;
      }
    }
-   
+   // Otherwise, this message should be trying to set some value
+   // These point to where where we want to store the message
+   float * f_ptr1 = 0;
+   float * f_ptr2 = 0;
+   int * i_ptr    = 0;
+   delay(100);
+   switch( msg ) {
+     case SET_P:
+       f_ptr1 = &l_pid_controller.p;
+       f_ptr2 = &r_pid_controller.p;
+       break; 
+     case SET_D:
+       f_ptr1 = &l_pid_controller.d;
+       f_ptr2 = &r_pid_controller.d;
+       break; 
+   }
+   // For floating point messages
+   if( f_ptr1 ) {
+     float f = 0;
+     // This is an ugly hack to read a float from the serial port
+     byte * f_ptr = (byte * )&f;
+     for( int i = 0; i < 4; i++ ) f_ptr[i] = Serial.read();   
+     if( is_msg_valid() ) {
+       *f_ptr1 = f;
+       if( f_ptr2 ) *f_ptr2 = f;
+     }
+   }
  }
 }
 
