@@ -10,8 +10,8 @@ use <ScrewMount.scad>;
 
 
 // Dimensions
-phone_width = 70.5   + global_correction;
-phone_depth = 6.8    + global_correction;
+phone_width = 71.17   + global_correction;
+phone_depth = 7.15    + global_correction;
 phone_height = 143.4 + global_correction;
 
 casing_wiggle = 5 + global_correction;
@@ -19,7 +19,7 @@ casing_depth = phone_depth + casing_wiggle;
 casing_width = phone_width + casing_wiggle + global_correction; 
 casing_height = phone_height * .3 + global_correction;
 
-screw_mount_placement =  ( .95 * phone_width ) / 2;
+screw_mount_placement =  ( .95 * (70.5   + global_correction) ) / 2;
 
 FullStand();
 
