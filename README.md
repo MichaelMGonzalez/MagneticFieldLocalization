@@ -20,7 +20,7 @@ The itensities of an indoor magnetic field may be used to aid localization of a 
 | ---
 | **Android Code**
 | GUI | Using sample code | Medium | . | Commit/Draft user flow chart
-| Magnometer Sensor API | Not Started | High | . | Read through API's
+| Magnometer Sensor API | In-Progress | High | . | Read through API's
 | Serial Communicator | External API's tested | High | Shared Message Framework created | Lower baud rate
 | Localizer | Not Started | Very High | Depends on most everything else before we can begin | Finish everything else
 | Network Module | Not Started | Medium/Low | It would be really nice to have some way to control the robot from a computer | ?
