@@ -1,11 +1,15 @@
 package com.ashmp.magneticfieldlocalizer;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Environment;
 import android.support.annotation.FloatRange;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,29 +25,60 @@ import java.io.FileWriter;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor magnetometer;
-
+    private Sensor accelerometer;
     TextView timeView;
     TextView teslaView;
     TextView x,y,z;
-
-    File file;
+    TextView acc;
 
     private long currtime;
     private long time;
 
     boolean saveTimeStamp;
+    boolean acc_ts;
     boolean timer;
 
-    Logger fileLog = new Logger();
+    Logger magnetometerLog = new Logger();
+    Logger accelerometerLog = new Logger();
 
+
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        verifyStoragePermissions(this);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         //Initializing
         teslaView = (TextView) findViewById(R.id.edit_tesla);
@@ -51,16 +86,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         x = (TextView) findViewById(R.id.x_axis);
         y = (TextView) findViewById(R.id.y_axis);
         z = (TextView) findViewById(R.id.z_axis);
-
+        //acc = (TextView) findViewById(R.id.edit_acc);
         // Control/ locks
         saveTimeStamp = true;
-        timer = true;
+        acc_ts = true;
+        timer = false;
 
     }
 
     protected void onResume() {
         super.onResume();
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         Button e = (Button) findViewById(R.id.pause_button);
         e.setText("Pause");
@@ -76,44 +113,69 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void onSensorChanged(SensorEvent event) {
-        float[] magnetic_vector = event.values;
-
-        float magnitude = (float)Math.sqrt(Math.pow(magnetic_vector[0],2)+Math.pow(magnetic_vector[1],2)+Math.pow(magnetic_vector[2],2));
-        String mag = String.format("%.3f",magnitude);
-
-        if (saveTimeStamp) {
-            saveTimeStamp = false;
-            fileLog.setTimeStamp(event.timestamp);
-        }
-
-        if (timer)
-            time = event.timestamp - fileLog.getTimeStamp();
+        Sensor sensor = event.sensor;
         currtime = event.timestamp;
-        // Displaying values
-        timeView.setText(String.format("%.2f",((double)(time)/Math.pow(10,9)))+"s");
-        teslaView.setText(mag);
 
-        float x_val = magnetic_vector[0];
-        float y_val = magnetic_vector[1];
-        float z_val = magnetic_vector[2];
+        if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            float[] magnetic_vector = event.values;
 
-        x.setText("x-axis: "+String.format("%.3f",x_val));
-        y.setText("y-axis: "+String.format("%.3f",y_val));
-        z.setText("z-axis: "+String.format("%.3f",z_val));
 
-        String output = Float.toString(magnitude)+","+Float.toString(x_val)+","+Float.toString(y_val)+","+Float.toString(z_val)+
-                ","+Long.toString(time);
-        fileLog.writeLog(output);
+            float magnitude = (float) Math.sqrt(Math.pow(magnetic_vector[0], 2) + Math.pow(magnetic_vector[1], 2) + Math.pow(magnetic_vector[2], 2));
+            String mag = String.format("%.3f", magnitude);
+
+            if (saveTimeStamp) {
+                saveTimeStamp = false;
+                magnetometerLog.setTimeStamp(event.timestamp);
+            }
+
+            if (timer)
+                time = currtime - magnetometerLog.getTimeStamp();
+            else
+                time = 0;
+            //currtime = event.timestamp;
+            // Displaying values
+            timeView.setText(String.format("%.2f", ((double) (time) / Math.pow(10, 9))) + "s");
+            teslaView.setText(mag);
+
+            float x_val = magnetic_vector[0];
+            float y_val = magnetic_vector[1];
+            float z_val = magnetic_vector[2];
+
+            x.setText("x-axis: " + String.format("%.3f", x_val));
+            y.setText("y-axis: " + String.format("%.3f", y_val));
+            z.setText("z-axis: " + String.format("%.3f", z_val));
+
+            String output = Float.toString(magnitude) + "," + Float.toString(x_val) + "," + Float.toString(y_val) + "," + Float.toString(z_val) +
+                    "," + Long.toString(time);
+            magnetometerLog.writeLog(output);
+        }
+        else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            if (acc_ts) {
+                acc_ts = false;
+                accelerometerLog.setTimeStamp(event.timestamp);
+            }
+
+            if (timer)
+                time = currtime - magnetometerLog.getTimeStamp();
+
+            float[] accVector = event.values;
+
+            String output = Float.toString(accVector[0])+","+Float.toString(accVector[1])+","+Float.toString(accVector[2])+","+Long.toString(time);
+            accelerometerLog.writeLog(output);
+        }
     }
 
     // BUTTONS!
     public void stopLog(View view) {
-        fileLog.endLog();
+        magnetometerLog.endLog();
+        accelerometerLog.endLog();
         timer = false;
     }
 
     public void startLog(View view) {
-        fileLog.CreateNewLog(this, "Magnetometer_Output"+Long.toString(currtime)+".txt");
+        magnetometerLog.CreateNewLog(this,"Magnetometer_Output"+Long.toString(currtime)+".csv");
+        accelerometerLog.CreateNewLog(this,"Accelerometer_Output"+Long.toString(currtime)+".csv");
+
         saveTimeStamp = true;
         timer = true;
 

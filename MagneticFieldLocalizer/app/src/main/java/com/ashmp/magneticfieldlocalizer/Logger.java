@@ -1,7 +1,12 @@
 package com.ashmp.magneticfieldlocalizer;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,20 +20,26 @@ public class Logger {
     private File file;
     boolean canWrite = false;
 
-    private long timeCounter;
+    private String path;
     private long currTime;
     private long timeStamp;
 
     Logger(){}
 
     public void CreateNewLog(Context ctx, String filename) {
-        file = new File(ctx.getFilesDir(),filename);//"Magnetometer_Output"+Long.toString(currtime)+".txt");
+        String pathStr = Environment.getExternalStorageDirectory() + "/Magnetometer_Data";
+        File dir = new File(pathStr);
+        if(!dir.exists())
+            dir.mkdir();
+        file = new File(dir,filename);//"Magnetometer_Output"+Long.toString(currtime)+".txt");
         try {
             if (!file.exists()){
                 file.createNewFile();
+                file.setReadable(true);
             }
         }catch(java.io.IOException e){
-            e.printStackTrace();
+
+            System.err.println(e);
         }
 
         canWrite = true;
@@ -40,7 +51,9 @@ public class Logger {
             FileOutputStream outputStream;
             try {
 
-                BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+                path = file.getAbsolutePath();
+                System.out.println(path);
                 writer.append(output);//Float.toString(mag)+","+Float.toString(x_val)+","+Float.toString(y_val)+",");
                 //writer.append(Float.toString(z_val)+","+Long.toString(time));
                 writer.newLine();
@@ -48,6 +61,7 @@ public class Logger {
                 writer.close();
 
             } catch (java.io.IOException e) {
+                System.err.println(e);
             }
         }
     }
@@ -62,6 +76,10 @@ public class Logger {
 
     public long getTimeStamp() {
         return timeStamp;
+    }
+
+    public String getfilepath() {
+        return path;
     }
 
 }
