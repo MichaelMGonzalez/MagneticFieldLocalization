@@ -1,5 +1,6 @@
 package com.ashmp.magneticfieldlocalizer;
 
+import android.content.Context;
 import android.os.Environment;
 
 import java.io.BufferedWriter;
@@ -20,14 +21,15 @@ public class Logger {
 
     Logger(){}
 
-    public void CreateNewLog(String filename) {
-        file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS),filename);//"Magnetometer_Output"+Long.toString(currtime)+".txt");
+    public void CreateNewLog(Context ctx, String filename) {
+        file = new File(ctx.getFilesDir(),filename);//"Magnetometer_Output"+Long.toString(currtime)+".txt");
         try {
             if (!file.exists()){
                 file.createNewFile();
             }
-        }catch(java.io.IOException e){}
+        }catch(java.io.IOException e){
+            e.printStackTrace();
+        }
 
         canWrite = true;
 

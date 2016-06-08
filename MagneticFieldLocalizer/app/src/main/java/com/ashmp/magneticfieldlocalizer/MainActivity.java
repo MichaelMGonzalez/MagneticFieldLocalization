@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void startLog(View view) {
-        fileLog.CreateNewLog("Magnetometer_Output"+Long.toString(currtime)+".txt");
+        fileLog.CreateNewLog(this, "Magnetometer_Output"+Long.toString(currtime)+".txt");
         saveTimeStamp = true;
         timer = true;
 

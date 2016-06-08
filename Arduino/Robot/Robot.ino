@@ -55,7 +55,7 @@
 #define IDLE 1
 
 // State variables
-uint8_t state = MOVING;
+uint8_t state = IDLE;
 
 // Left Wheel's Angular Velocity
 float l_a = 0;
@@ -148,8 +148,8 @@ void loop() {
           PIDLoop();
 	  break;
   }
-  //report_values();
-  test_sensors(false);
+  report_values();
+  //test_sensors(false);
 }
 
 void report_values() {
