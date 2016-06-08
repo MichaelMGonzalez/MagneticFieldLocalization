@@ -24,6 +24,7 @@
             android:textSize="30dp"
             android:paddingLeft="10dp"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +49,7 @@
             android:textSize="20dp"
             android:text="z-axis" />
     </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_height="wrap_content"
@@ -62,7 +64,6 @@
             android:id="@+id/edit_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:02"
             android:textSize="23dp"
             android:paddingLeft="10dp"/>
     </LinearLayout>

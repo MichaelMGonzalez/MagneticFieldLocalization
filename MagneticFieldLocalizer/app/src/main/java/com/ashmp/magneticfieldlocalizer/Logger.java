@@ -1,6 +1,7 @@
 package com.ashmp.magneticfieldlocalizer;
 
 import android.os.Environment;
+import android.os.SystemClock;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,7 +15,7 @@ public class Logger {
     private File file;
     boolean canWrite = false;
 
-    private long timeCounter;
+    private String path;
     private long currTime;
     private long timeStamp;
 
@@ -27,7 +28,9 @@ public class Logger {
             if (!file.exists()){
                 file.createNewFile();
             }
-        }catch(java.io.IOException e){}
+        }catch(java.io.IOException e){
+            System.err.println(e);
+        }
 
         canWrite = true;
 
@@ -39,6 +42,7 @@ public class Logger {
             try {
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true));
+                path = file.getAbsolutePath();
                 writer.append(output);//Float.toString(mag)+","+Float.toString(x_val)+","+Float.toString(y_val)+",");
                 //writer.append(Float.toString(z_val)+","+Long.toString(time));
                 writer.newLine();
@@ -46,6 +50,7 @@ public class Logger {
                 writer.close();
 
             } catch (java.io.IOException e) {
+                System.err.println(e);
             }
         }
     }
@@ -60,6 +65,10 @@ public class Logger {
 
     public long getTimeStamp() {
         return timeStamp;
+    }
+
+    public String getfilepath() {
+        return path;
     }
 
 }
