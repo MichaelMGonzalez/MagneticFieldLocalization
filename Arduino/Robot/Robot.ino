@@ -55,7 +55,7 @@
 #define IDLE 1
 
 // State variables
-uint8_t state = IDLE;
+uint8_t state = MOVING;
 
 // Left Wheel's Angular Velocity
 float l_a = 0;
@@ -70,8 +70,8 @@ float l_c = 0;
 float r_c = 0;
 
 // PID Values
-float p = 1.8;
-float d = -.5;
+float p = 1.2;
+float d = 1.5;
 /** ======================================================================= **\
 |** ------------------------- Object Declarations ------------------------- **|
 \** ======================================================================= **/
@@ -118,7 +118,7 @@ void reset() {
    left_encoder.setup();
    left_encoder.set_thresholds(934, 915);
    right_encoder.setup();
-   right_encoder.set_thresholds(1017, 992);
+   right_encoder.set_thresholds(1016, 992);
    l_pid_controller.setup( t );
    r_pid_controller.setup( t );
    l_a = 0;
@@ -148,7 +148,8 @@ void loop() {
           PIDLoop();
 	  break;
   }
-  report_values();
+  //report_values();
+  test_sensors(false);
 }
 
 void report_values() {
