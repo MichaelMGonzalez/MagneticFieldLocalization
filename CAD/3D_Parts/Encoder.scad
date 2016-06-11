@@ -13,7 +13,7 @@ encasing_height = sensor_height * encasing_scale;
 encasing_width = sensor_width * encasing_scale;
 encasing_depth = sensor_depth * encasing_scale;
 
-rotate( 90, [1,0,0] )
+rotate( 0, [1,0,0] )
 FullEncoder_IR();
 
 

@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-use_min = True 
+use_min = False
 if len( sys.argv ) == 1:
     print "Please enter the csv file you want to plot!"
     sys.exit(0)
@@ -14,7 +14,7 @@ with open( sys.argv[1] ) as csvfile:
     points = [ c for c in reader ]
     xs     = [ float(p[0]) for p in points ]
     ys     = [ float(p[1]) for p in points ]
-    zs     = [   int(p[2]) for p in points ]
+    zs     = [   float(p[2]) - 2 for p in points ]
 
 
 #print (xs), (ys), (zs)
@@ -32,6 +32,6 @@ fig = plt.figure()
 ax = fig.add_subplot( 111, projection='3d')
 ax.set_xlabel('P')
 ax.set_ylabel('D')
-ax.set_zlabel('Time in nanoseconds to converge to goal')
+ax.set_zlabel('Time in seconds for control signal to converge')
 ax.scatter(xs, ys, zs)
 plt.show()

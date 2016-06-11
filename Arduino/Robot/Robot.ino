@@ -46,8 +46,8 @@
 #define DISTANCESENSOR1_A A0
 #define DISTANCESENSOR2_A A1
 #define DISTANCESENSOR3_A A2
-#define ENCODER_LEFT A3
-#define ENCODER_RIGHT A4
+#define ENCODER_LEFT A4
+#define ENCODER_RIGHT A3
 
 // State constants
 
@@ -55,7 +55,7 @@
 #define IDLE 1
 
 // State variables
-uint8_t state = IDLE;
+uint8_t state = MOVING;
 
 // Left Wheel's Angular Velocity
 float l_a = 0;
@@ -148,8 +148,8 @@ void loop() {
           PIDLoop();
 	  break;
   }
-  report_values();
-  //test_sensors(false);
+  //report_values();
+  test_sensors(false);
 }
 
 void report_values() {

@@ -33,9 +33,7 @@ module FullStand() {
 		BaseStation();
 
 		// Draw triangular supports
-		Support();
-		rotate(180)
-			Support();
+
 
 		// Draw vertical supports
 		translate( [.8*casing_width/2,0,0] ) 

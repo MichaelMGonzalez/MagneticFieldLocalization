@@ -52,10 +52,11 @@ def count_odom_hits(data,rising, falling):
 
 def plot():
 #xs = range( len( points ) )
-    plt.plot(times, left_vals, label="Left Wheel")
-    plt.plot(times, right_vals, label="Right Wheel")
+    plt.plot(times, map(lambda x: float(x)/200.0, left_vals), label="Left Wheel")
+    plt.plot(times, map(lambda x: float(x)/200.0, right_vals), label="Right Wheel")
     plt.ylabel("Sensor readings in Volts")
     plt.xlabel("Time in seconds")
+    plt.legend()
     plt.show()
 
 

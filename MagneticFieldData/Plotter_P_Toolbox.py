@@ -20,4 +20,7 @@ for points in sets:
     ts   = [ p[0] for p in points [1:] ]
 #xs = range( len( points ) )
     plt.plot(ts, ints)
+
+plt.ylabel("Magnetic Field Intensities in micro Teslas")    
+plt.xlabel("Time in seconds")    
 plt.show()

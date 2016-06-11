@@ -3,5 +3,9 @@
     <string name="button_stop">Stop Log</string>
     <string name="button_log">Start Log</string>
     <string name="button_pause">Pause</string>
+    <string name="app_title">MagneticFieldLocalizer</string>
+    <string name="refreshing">Refreshing..</string>
+    <string name="textBtnDTR">DTR</string>
+    <string name="textBtnRTS">RTS</string>
 
 </resources>

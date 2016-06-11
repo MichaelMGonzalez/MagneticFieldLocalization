@@ -12,7 +12,7 @@ bin_size = 20
 def show_hist(points):
     plt.hist( points, bin_size)
     plt.xlabel("Velocity as m/s")
-    plt.ylabel("Probability")
+    plt.ylabel("Elements within bin")
     plt.title("Histogram of the time required for a full motor revolution")
     plt.suptitle("Sample size: n = " + str(len(points )) + "\n" + "Bin Size: " + str(bin_size))
     plt.show()

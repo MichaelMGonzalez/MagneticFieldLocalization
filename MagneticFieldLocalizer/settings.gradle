@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':usbserial'
+project(':usbserial').projectDir = new File('libs/usbserial')
