@@ -100,7 +100,7 @@ public class DeviceListActivity extends Activity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 final TwoLineListItem row;
-                if (convertView == null){
+                if (convertView == null) {
                     final LayoutInflater inflater =
                             (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     row = (TwoLineListItem) inflater.inflate(android.R.layout.simple_list_item_2, null);

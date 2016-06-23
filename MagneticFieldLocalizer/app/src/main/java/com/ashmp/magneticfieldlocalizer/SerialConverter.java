@@ -5,8 +5,6 @@ package com.ashmp.magneticfieldlocalizer;
  */
 public class SerialConverter {
 
-
-
     //SerialConverter() {}
 
     static public byte[] writeFloat(Byte msgtype, float f) {

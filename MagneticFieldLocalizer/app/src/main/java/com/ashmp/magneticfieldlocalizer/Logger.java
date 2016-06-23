@@ -31,7 +31,7 @@ public class Logger {
         File dir = new File(pathStr);
         if(!dir.exists())
             dir.mkdir();
-        file = new File(dir,filename);//"Magnetometer_Output"+Long.toString(currtime)+".txt");
+        file = new File(dir,filename+".csv");
         try {
             if (!file.exists()){
                 file.createNewFile();
@@ -45,7 +45,15 @@ public class Logger {
         canWrite = true;
 
     }
-
+    public void writeLog(float[] values ) {
+        String stringVal = "";
+        for( int i = 0; i < values.length; i++ ) {
+            stringVal += values[i];
+            if( i != values.length-1 )
+                stringVal += ",";
+        }
+        writeLog(stringVal);
+    }
     public void writeLog(String output) {
         if (canWrite) {
             FileOutputStream outputStream;
