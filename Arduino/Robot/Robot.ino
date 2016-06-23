@@ -27,6 +27,7 @@
 #include <DifferentialDrive.h>
 #include <PIDController.h>
 #include <IRWheelEncoder.h>
+#include "SimpleRobot_HLSM.hpp"
 
 /** ======================================================================= **\
 |** ---------------------------- Pin Constants ---------------------------- **|
@@ -53,9 +54,10 @@
 
 #define MOVING 0
 #define IDLE 1
+#define TESTING 2
 
 // State variables
-uint8_t state = MOVING;
+uint8_t state = TESTING;
 
 // Left Wheel's Angular Velocity
 float l_a = 0;
@@ -86,6 +88,7 @@ IRWheelEncoder right_encoder = IRWheelEncoder(ENCODER_RIGHT);
 
 PIDController l_pid_controller = PIDController( p, 0, d);
 PIDController r_pid_controller = PIDController( p, 0, d);
+SimpleRobot_HLSM state_machine;
 
 
 /** ======================================================================= **\
@@ -143,13 +146,9 @@ void reset() {
 
 void loop() {
   //test_sensors(true);
-  switch( state ) {
-      case MOVING:
-          PIDLoop();
-	  break;
-  }
+  state_machine.run();
   //report_values();
-  test_sensors(false);
+  test_sensors(true);
 }
 
 void report_values() {
@@ -193,11 +192,11 @@ void serialEvent() {
    if( is_msg_valid() ) {
      switch( msg ) {
        case STOP:
-         state = IDLE;
+         state_machine.state = IDLE;
          motor.stop();
          break;
        case MOVE_FORWARD:
-         state = MOVING;
+         state_machine.state = TESTPID;
          reset();
          break;
      }
@@ -310,5 +309,17 @@ void set_power( int val, int dir ) {
 }
 
 
-
-
+void SimpleRobot_HLSM::ExecuteActionIdle() { }
+void SimpleRobot_HLSM::ExecuteActionWaitForSecondPress() { }
+void SimpleRobot_HLSM::ExecuteActionTestMotors() {
+    motor.forward(100);
+}
+void SimpleRobot_HLSM::ExecuteActionTestPID() {
+    PIDLoop();
+}
+bool SimpleRobot_HLSM::buttonPress() {
+    return button.wasPressed(); 
+}
+bool SimpleRobot_HLSM::wait() {
+    return timeEllapsed > 1000;
+}

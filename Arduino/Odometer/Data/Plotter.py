@@ -10,7 +10,7 @@ if len( sys.argv ) == 1:
 points = []
 with open( sys.argv[1] ) as csvfile:
     reader = csv.reader(csvfile)
-    points = [ int(c[0]) for c in reader]
+    points = [ int(c[1]) for c in reader]
 
 print points
 xs = range( len( points ) )

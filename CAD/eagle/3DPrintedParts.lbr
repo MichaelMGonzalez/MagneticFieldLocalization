@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.2.0">
+<eagle version="7.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -261,6 +261,40 @@
 <hole x="37.65" y="-14.05" drill="2.5"/>
 <rectangle x1="35.15" y1="-16.55" x2="40.15" y2="-11.55" layer="43"/>
 </package>
+<package name="IRSTAND">
+<wire x1="-1.5" y1="-18" x2="1.5" y2="-18" width="0.001" layer="21"/>
+<wire x1="1.5" y1="-18" x2="1.5" y2="-16" width="0.001" layer="21"/>
+<wire x1="1.5" y1="-16" x2="57.5" y2="-16" width="0.001" layer="21"/>
+<wire x1="57.5" y1="-16" x2="57.5" y2="-12" width="0.001" layer="21"/>
+<wire x1="57.5" y1="-12" x2="1.5" y2="-12" width="0.001" layer="21"/>
+<wire x1="1.5" y1="-12" x2="1.5" y2="0" width="0.001" layer="21"/>
+<wire x1="0" y1="0" x2="1.5" y2="0" width="0.001" layer="21"/>
+<wire x1="1.5" y1="0" x2="1.5" y2="12" width="0.001" layer="21"/>
+<wire x1="1.5" y1="12" x2="57.5" y2="12" width="0.001" layer="21"/>
+<wire x1="57.5" y1="12" x2="57.5" y2="16" width="0.001" layer="21"/>
+<wire x1="57.5" y1="16" x2="1.5" y2="16" width="0.001" layer="21"/>
+<wire x1="1.5" y1="16" x2="1.5" y2="18" width="0.001" layer="21"/>
+<wire x1="1.5" y1="18" x2="-1.5" y2="18" width="0.001" layer="21"/>
+<wire x1="-1.5" y1="18" x2="-1.5" y2="-18" width="0.001" layer="21"/>
+<wire x1="-1" y1="-7.625" x2="-0.766040625" y2="-6.982209375" width="0.001" layer="21"/>
+<wire x1="-0.766040625" y1="-6.982209375" x2="-0.17365" y2="-6.640190625" width="0.001" layer="21"/>
+<wire x1="-0.17365" y1="-6.640190625" x2="0.5" y2="-6.75896875" width="0.001" layer="21"/>
+<wire x1="0.5" y1="-6.75896875" x2="0.939690625" y2="-7.28298125" width="0.001" layer="21"/>
+<wire x1="0.939690625" y1="-7.28298125" x2="0.939690625" y2="-7.96701875" width="0.001" layer="21"/>
+<wire x1="0.939690625" y1="-7.96701875" x2="0.5" y2="-8.49101875" width="0.001" layer="21"/>
+<wire x1="0.5" y1="-8.49101875" x2="-0.17365" y2="-8.609809375" width="0.001" layer="21"/>
+<wire x1="-0.17365" y1="-8.609809375" x2="-0.766040625" y2="-8.267790625" width="0.001" layer="21"/>
+<wire x1="-0.766040625" y1="-8.267790625" x2="-1" y2="-7.625" width="0.001" layer="21"/>
+<wire x1="-0.939690625" y1="7.28298125" x2="-0.939690625" y2="7.96701875" width="0.001" layer="21"/>
+<wire x1="-0.939690625" y1="7.96701875" x2="-0.5" y2="8.49101875" width="0.001" layer="21"/>
+<wire x1="-0.5" y1="8.49101875" x2="0.17365" y2="8.609809375" width="0.001" layer="21"/>
+<wire x1="0.17365" y1="8.609809375" x2="0.766040625" y2="8.267790625" width="0.001" layer="21"/>
+<wire x1="0.766040625" y1="8.267790625" x2="1" y2="7.625" width="0.001" layer="21"/>
+<wire x1="1" y1="7.625" x2="0.766040625" y2="6.982209375" width="0.001" layer="21"/>
+<wire x1="0.766040625" y1="6.982209375" x2="0.17365" y2="6.640190625" width="0.001" layer="21"/>
+<wire x1="0.17365" y1="6.640190625" x2="-0.5" y2="6.75896875" width="0.001" layer="21"/>
+<wire x1="-0.5" y1="6.75896875" x2="-0.939690625" y2="7.28298125" width="0.001" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="3D_PART">
@@ -280,6 +314,18 @@
 </gates>
 <devices>
 <device name="" package="PHONE_STAND">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="IRSTAND">
+<gates>
+<gate name="G$1" symbol="3D_PART" x="7.62" y="10.16"/>
+</gates>
+<devices>
+<device name="" package="IRSTAND">
 <technologies>
 <technology name=""/>
 </technologies>
