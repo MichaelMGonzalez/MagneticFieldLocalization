@@ -7,5 +7,6 @@
     <string name="refreshing">Refreshing..</string>
     <string name="textBtnDTR">DTR</string>
     <string name="textBtnRTS">RTS</string>
+    <string name="magnometerReadings">Measurements in \u00B5T</string>
 
 </resources>

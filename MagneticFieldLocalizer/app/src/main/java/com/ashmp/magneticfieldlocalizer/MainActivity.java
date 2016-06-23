@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //Initializing
         teslaView = (TextView) findViewById(R.id.edit_tesla);
-        timeView = (TextView) findViewById(R.id.edit_time);
+        timeView = (TextView) findViewById(R.id.timeValue);
         pauseButton = (Button) findViewById(R.id.pause_button);
         x = (TextView) findViewById(R.id.x_axis);
         y = (TextView) findViewById(R.id.y_axis);
@@ -113,14 +113,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String output = "";
         switch( sensor.getType() ) {
             case Sensor.TYPE_MAGNETIC_FIELD:
-                String magnitudeLabel = String.format("%.3f", magnitude);
+                String magnitudeLabel = String.format("%.2f", magnitude);
 
                 // Displaying values
                 timeView.setText(String.format("%.2f", (1.0 * time  / Math.pow(10, 9))) + "s");
                 teslaView.setText(magnitudeLabel);
-                x.setText("x-axis: " + String.format("%.3f", x_val));
-                y.setText("y-axis: " + String.format("%.3f", y_val));
-                z.setText("z-axis: " + String.format("%.3f", z_val));
+                x.setText(String.format("%.2f", x_val));
+                y.setText(String.format("%.2f", y_val));
+                z.setText(String.format("%.2f", z_val));
 
                 output = Float.toString(magnitude) + "," + Float.toString(x_val) + "," +
                         Float.toString(y_val) + "," + Float.toString(z_val) + ","
@@ -135,10 +135,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    // BUTTONS!
+
     public void stopLog(View view) {
         magnetometerLog.endLog();
         accelerometerLog.endLog();
+        unregisterListeners();
     }
 
     public void startLog(View view) {
