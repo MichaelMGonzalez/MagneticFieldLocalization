@@ -1,5 +1,10 @@
 package hlsm;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+
+import com.ashmp.magneticfieldlocalizer.ExtraMath;
+import com.ashmp.magneticfieldlocalizer.Logger;
 import com.ashmp.magneticfieldlocalizer.MainActivity;
 
 /**
@@ -9,6 +14,9 @@ import com.ashmp.magneticfieldlocalizer.MainActivity;
 public class LoggerHLSM extends LoggerAbstractHLSM {
     public boolean startSig = false;
     public boolean stopSig  = false;
+    public long startTime = -1;
+    private Logger magnetometerLog = new Logger();
+    private Logger accelerometerLog = new Logger();
     private MainActivity activity;
     public LoggerHLSM( MainActivity activity ) {
         this.activity = activity;
@@ -26,11 +34,8 @@ public class LoggerHLSM extends LoggerAbstractHLSM {
 
     @Override
     protected void ExecuteActionStartLogging() {
-        activity.magnetometerLog.CreateNewLog(activity, "Magnetometer_Output" +
-                activity.currentTime);
-        activity.accelerometerLog.CreateNewLog(activity, "Accelerometer_Output" +
-                activity.currentTime);
-        activity.resetStartTime = true;
+        magnetometerLog.CreateNewLog("Magnetometer_Output");
+        accelerometerLog.CreateNewLog("Accelerometer_Output");
         activity.logging = true;
         activity.registerListeners();
     }
@@ -42,12 +47,23 @@ public class LoggerHLSM extends LoggerAbstractHLSM {
 
     @Override
     protected void ExecuteActionStopLogging() {
-        activity.magnetometerLog.endLog();
-        activity.accelerometerLog.endLog();
+        magnetometerLog.endLog();
+        accelerometerLog.endLog();
+        startTime = -1;
         setActivityLabel(activity.timeView, "0s");
         activity.logging = false;
         activity.unregisterListeners();
 
+    }
+
+    @Override
+    protected void ExecuteActionWaitForSensor() {
+
+    }
+
+    @Override
+    protected boolean onSensorChanged() {
+        return startTime != -1;
     }
 
     @Override
@@ -68,4 +84,21 @@ public class LoggerHLSM extends LoggerAbstractHLSM {
     protected void onTransition() {
 
     }
+
+    public float processSensorEvent(SensorEvent e) {
+        if( state == WAITFORSENSOR )
+            startTime = e.timestamp;
+        float magnitude = ExtraMath.Magnitude(e.values);
+        long time = e.timestamp - startTime;
+        switch( e.sensor.getType() ) {
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                magnetometerLog.writeLog(magnitude, e.values, time);
+                break;
+            case Sensor.TYPE_ACCELEROMETER:
+                accelerometerLog.writeLog(e.values, time);
+                break;
+        }
+        return magnitude;
+    }
+
 }

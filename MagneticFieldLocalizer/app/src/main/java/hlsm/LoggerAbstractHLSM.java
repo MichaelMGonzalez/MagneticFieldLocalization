@@ -6,6 +6,7 @@ public abstract class LoggerAbstractHLSM  extends AndroidHLSM {
     public final int STARTLOGGING = 2;
     public final int LOGGING = 3;
     public final int STOPLOGGING = 4;
+    public final int WAITFORSENSOR = 5;
     public int state;
     @Override
 	protected void runHLSM( ) {
@@ -28,6 +29,9 @@ public abstract class LoggerAbstractHLSM  extends AndroidHLSM {
                 case STOPLOGGING:
                     ExecuteActionStopLogging();
                     break;
+                case WAITFORSENSOR:
+                    ExecuteActionWaitForSensor();
+                    break;
             }
             // The following switch statement handles the HLSM's state transition logic
             switch(state) {
@@ -40,7 +44,7 @@ public abstract class LoggerAbstractHLSM  extends AndroidHLSM {
                     }
                     break;
                 case STARTLOGGING:
-                    state = LOGGING;
+                    state = WAITFORSENSOR;
                     break;
                 case LOGGING:
                     if ( stopSignal() ) {
@@ -49,6 +53,11 @@ public abstract class LoggerAbstractHLSM  extends AndroidHLSM {
                     break;
                 case STOPLOGGING:
                     state = NOTLOGGING;
+                    break;
+                case WAITFORSENSOR:
+                    if ( onSensorChanged() ) {
+                        state = LOGGING;
+                    }
                     break;
             }
             pause( delayRate );
@@ -63,6 +72,8 @@ public abstract class LoggerAbstractHLSM  extends AndroidHLSM {
     protected abstract void ExecuteActionStartLogging();
     protected abstract void ExecuteActionLogging();
     protected abstract void ExecuteActionStopLogging();
+    protected abstract void ExecuteActionWaitForSensor();
+    protected abstract boolean onSensorChanged();
     protected abstract boolean startSignal();
     protected abstract boolean stopSignal();
     protected abstract void onTransition();
