@@ -8,5 +8,6 @@
     <string name="textBtnDTR">DTR</string>
     <string name="textBtnRTS">RTS</string>
     <string name="magnometerReadings">Measurements in \u00B5T</string>
+    <string name="accelerometer_units">Measurements in m/s\u00B2</string>
 
 </resources>

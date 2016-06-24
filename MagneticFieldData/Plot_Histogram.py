@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math as m
 
-bin_size = 64
+bin_size = 32
 
 
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     points = []
     with open( sys.argv[1] ) as csvfile:
         reader = csv.reader(csvfile)
-        points = [ float(c[4] ) for c in reader]
+        points = [ float(c[2] ) for c in reader]
     #print (points)
     xs = range( len( points ) )
     show_hist(points)
