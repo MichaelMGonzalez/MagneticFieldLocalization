@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,25 +16,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import hlsm.LoggerHLSM;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor magnetometer;
     private Sensor accelerometer;
-    private TextView timeView;
-    private TextView teslaView;
-    private TextView x,y,z;
+    private LoggerHLSM stateMachine;
+
+    private TextView magnetometerLabelMagnitude;
+    private TextView magnetometerLabelX, magnetometerLabelY, magnetometerLabelZ;
     private Button pauseButton;
-    TextView acc;
-
-    private long currentTime;
-    private long startTime;
-
-    boolean resetStartTime;
-    boolean acc_ts;
-
-
-    private Logger magnetometerLog = new Logger();
-    private Logger accelerometerLog = new Logger();
+    private final String NUMFMT = "%.2f";
+    public TextView timeView;
 
 
     // Storage Permissions
@@ -42,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    public boolean logging = false;
+
 
     /**
      * Checks if the app has permission to write to device storage
@@ -74,81 +71,53 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        //Initializing
-        teslaView = (TextView) findViewById(R.id.edit_tesla);
+        // Get resources
+        magnetometerLabelMagnitude = (TextView) findViewById(R.id.edit_tesla);
         timeView = (TextView) findViewById(R.id.timeValue);
         pauseButton = (Button) findViewById(R.id.pause_button);
-        x = (TextView) findViewById(R.id.x_axis);
-        y = (TextView) findViewById(R.id.y_axis);
-        z = (TextView) findViewById(R.id.z_axis);
-        //acc = (TextView) findViewById(R.id.edit_acc);
-        // Control/ locks
-        resetStartTime = true;
-        acc_ts = true;
-
+        magnetometerLabelX = (TextView) findViewById(R.id.x_axis);
+        magnetometerLabelY = (TextView) findViewById(R.id.y_axis);
+        magnetometerLabelZ = (TextView) findViewById(R.id.z_axis);
+        // Create state machine
+        stateMachine = new LoggerHLSM(this);
+        stateMachine.start();
     }
 
     protected void onResume() {
         super.onResume();
-        registerListeners();
-        setPauseButtonToPause();
+        if( logging ) {
+            registerListeners();
+            setPauseButtonToPause();
+        }
     }
     protected void onPause(){
         super.onPause();
         unregisterListeners();
     }
 
-    public void onSensorChanged(SensorEvent event) {
-        if (resetStartTime) {
-            resetStartTime = false;
-            startTime = event.timestamp;
-        }
-        Sensor sensor = event.sensor;
-        currentTime = event.timestamp;
-        float x_val = event.values[0];
-        float y_val = event.values[1];
-        float z_val = event.values[2];
-        float magnitude = (float)Math.sqrt(x_val * x_val + y_val * y_val + z_val * z_val);
-        long time = currentTime - startTime;
-        String output = "";
-        switch( sensor.getType() ) {
+    public void onSensorChanged(SensorEvent e) {
+
+        float magnitude = stateMachine.processSensorEvent(e);
+        if( stateMachine.state == stateMachine.LOGGING )
+            setTimeView((float)((e.timestamp - stateMachine.startTime)  / Math.pow(10, 9)));
+        System.out.println(stateMachine.startTime);
+        switch( e.sensor.getType() ) {
             case Sensor.TYPE_MAGNETIC_FIELD:
-                String magnitudeLabel = String.format("%.2f", magnitude);
-
                 // Displaying values
-                timeView.setText(String.format("%.2f", (1.0 * time  / Math.pow(10, 9))) + "s");
-                teslaView.setText(magnitudeLabel);
-                x.setText(String.format("%.2f", x_val));
-                y.setText(String.format("%.2f", y_val));
-                z.setText(String.format("%.2f", z_val));
-
-                output = Float.toString(magnitude) + "," + Float.toString(x_val) + "," +
-                        Float.toString(y_val) + "," + Float.toString(z_val) + ","
-                        + Long.toString(time);
-                magnetometerLog.writeLog(output);
+                setMagnetometerView(e.values, magnitude);
                 break;
             case Sensor.TYPE_ACCELEROMETER:
-                output = Float.toString(x_val)+ "," +Float.toString(y_val)
-                        + "," + Float.toString(z_val)+ "," +Long.toString(time);
-                accelerometerLog.writeLog(output);
                 break;
         }
     }
 
-
-    public void stopLog(View view) {
-        magnetometerLog.endLog();
-        accelerometerLog.endLog();
-        unregisterListeners();
+    public void setMagnetometerView( float[] sensorReadings, float magnitude ) {
+        String magnitudeLabel = String.format(NUMFMT, magnitude);
+        magnetometerLabelMagnitude.setText(magnitudeLabel);
+        magnetometerLabelX.setText(String.format(NUMFMT, sensorReadings[0]));
+        magnetometerLabelY.setText(String.format(NUMFMT, sensorReadings[1]));
+        magnetometerLabelZ.setText(String.format(NUMFMT, sensorReadings[2]));
     }
-
-    public void startLog(View view) {
-        magnetometerLog.CreateNewLog(this,"Magnetometer_Output" + currentTime);
-        accelerometerLog.CreateNewLog(this, "Accelerometer_Output" + currentTime);
-
-        resetStartTime = true;
-    }
-
     public void pause(View view) {
         unregisterListeners();
         setPauseButtonToContinue();
@@ -169,22 +138,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void setPauseButtonToContinue() {
         pauseButton.setText("Continue");
-        pauseButton.setOnClickListener(new View.OnClickListener(){
+        pauseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 continueReading(v);
             }
         });
     }
 
-    private void registerListeners() {
+    public void registerListeners() {
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
-    private void unregisterListeners() {
+
+    public void unregisterListeners() {
         sensorManager.unregisterListener(this);
+    }
+
+    public void setTimeView( float time ) {
+        timeView.setText(String.format(NUMFMT, time) + "s");
     }
 
     public void onAccuracyChanged(Sensor s, int i) {
         //not used - needed here because it's and abstract method in SensorEventListener
+    }
+    public void startLog(View v) {
+        stateMachine.startSig = true;
+        stateMachine.stopSig = false;
+    }
+    public void stopLog(View v) {
+        stateMachine.stopSig = true;
+        stateMachine.startSig = false;
+        SystemClock.sleep(200);
+        setMagnetometerView(new float[]{0, 0, 0}, 0);
     }
 }
