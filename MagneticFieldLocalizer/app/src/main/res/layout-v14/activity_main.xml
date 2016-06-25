@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.ashmp.magneticfieldlocalizer.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LoggingButtons"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_log"
+            android:onClick="startLog"
+            android:id="@+id/button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/button2"
+            android:layout_alignStart="@+id/button2" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_stop"
+            android:onClick="stopLog"
+            android:id="@+id/button2"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/z_axis"
+            android:layout_toEndOf="@+id/z_axis" />
+
+        <Button
+            android:id="@+id/pause_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_pause"
+            android:onClick="pause"
+            android:layout_alignTop="@+id/button"
+            android:layout_centerHorizontal="true" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="MagnometerReadings"
+        android:id="@+id/Magnometer"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="@string/magnometerReadings"
+        android:id="@+id/microTesla"
+        android:layout_below="@+id/Magnometer"
+        android:layout_alignLeft="@+id/Magnometer"
+        android:layout_alignStart="@+id/Magnometer" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/MagnometerTable"
+        android:layout_below="@+id/microTesla"
+        android:layout_alignLeft="@+id/microTesla"
+        android:layout_alignStart="@+id/microTesla"
+        android:layout_alignRight="@+id/Magnometer"
+        android:layout_alignEnd="@+id/Magnometer">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:divider="#000000"
+            android:id="@+id/MagnometerLabels">
+
+            <TextView
+                android:id="@+id/magnometer_x_label"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="x"
+                android:layout_above="@+id/timeLabel"
+                android:layout_toRightOf="@+id/pause_button"
+                android:layout_toEndOf="@+id/pause_button"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:enabled="true"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp"
+                android:paddingRight="0dp" />
+
+            <TextView
+                android:id="@+id/magnometer_y_label"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="y"
+                android:layout_below="@+id/timeLabel"
+                android:layout_toRightOf="@+id/microTesla"
+                android:layout_toEndOf="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:enabled="true"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp"
+                android:paddingRight="0dp" />
+
+            <TextView
+                android:id="@+id/magnometer_z_label"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="z"
+                android:layout_below="@+id/magnometer_mag_label"
+                android:layout_alignLeft="@+id/microTesla"
+                android:layout_alignStart="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:enabled="true"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp"
+                android:paddingRight="0dp" />
+
+            <TextView
+                android:id="@+id/magnometer_mag_label"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="Mag"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:enabled="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="#000000"
+            android:layout_below="@+id/MagnometerTable"
+            android:layout_alignLeft="@+id/TimeTable"
+            android:layout_alignStart="@+id/TimeTable"
+            android:layout_alignRight="@+id/MagnometerTable"
+            android:layout_alignEnd="@+id/MagnometerTable"
+            android:id="@+id/MagnometerReadings">
+
+            <TextView
+                android:id="@+id/x_axis"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:layout_above="@+id/timeLabel"
+                android:layout_toRightOf="@+id/pause_button"
+                android:layout_toEndOf="@+id/pause_button"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/y_axis"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:layout_below="@+id/timeLabel"
+                android:layout_toRightOf="@+id/microTesla"
+                android:layout_toEndOf="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/z_axis"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:layout_below="@+id/edit_tesla"
+                android:layout_alignLeft="@+id/microTesla"
+                android:layout_alignStart="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/edit_tesla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:paddingLeft="10dp"
+                android:enabled="false"
+                android:layout_margin="5dp"
+                android:padding="5dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="AccelerometerReadings"
+        android:id="@+id/Accelerometer"
+        android:layout_below="@+id/MagnometerTable"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="@string/accelerometer_units"
+        android:id="@+id/raw_accel_units"
+        android:layout_below="@+id/Accelerometer"
+        android:layout_alignParentLeft="true" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AccelerometerTable"
+        android:layout_below="@+id/raw_accel_units"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:divider="#000000"
+            android:id="@+id/tableRow" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="x"
+                android:layout_above="@+id/timeLabel"
+                android:layout_toRightOf="@+id/pause_button"
+                android:layout_toEndOf="@+id/pause_button"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:enabled="true"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp"
+                android:paddingRight="0dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="y"
+                android:layout_below="@+id/timeLabel"
+                android:layout_toRightOf="@+id/microTesla"
+                android:layout_toEndOf="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:enabled="true"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp"
+                android:paddingRight="0dp" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="z"
+                android:layout_below="@+id/textView6"
+                android:layout_alignLeft="@+id/microTesla"
+                android:layout_alignStart="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:enabled="true"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp"
+                android:paddingRight="0dp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:text="Mag"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:enabled="true" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="#000000"
+            android:layout_below="@+id/MagnometerTable"
+            android:layout_alignLeft="@+id/TimeTable"
+            android:layout_alignStart="@+id/TimeTable"
+            android:layout_alignRight="@+id/MagnometerTable"
+            android:layout_alignEnd="@+id/MagnometerTable"
+            android:id="@+id/tableRow2" >
+
+            <TextView
+                android:id="@+id/accelerometer_label_x"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:layout_above="@+id/timeLabel"
+                android:layout_toRightOf="@+id/pause_button"
+                android:layout_toEndOf="@+id/pause_button"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/accelerometer_label_y"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:layout_below="@+id/timeLabel"
+                android:layout_toRightOf="@+id/microTesla"
+                android:layout_toEndOf="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/accelerometer_label_z"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15dp"
+                android:layout_below="@+id/accelerometer_label_mag"
+                android:layout_alignLeft="@+id/microTesla"
+                android:layout_alignStart="@+id/microTesla"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/accelerometer_label_mag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:paddingLeft="10dp"
+                android:enabled="false"
+                android:layout_margin="5dp"
+                android:padding="5dp" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TimeTable"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Time:"
+                android:id="@+id/timeLabel"
+                android:layout_gravity="center_vertical"
+                android:padding="5dp"
+                android:enabled="true"
+                android:layout_below="@+id/AccelerometerTable"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/timeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:paddingLeft="10dp"
+                android:padding="5dp"
+                android:enabled="true" />
+
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Network Module"
+        android:id="@+id/NetworkLabel"
+        android:layout_below="@+id/TimeTable"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/NetworkLabel"
+        android:id="@+id/NetworkInfo"
+        android:layout_alignRight="@+id/NetworkLabel"
+        android:layout_alignEnd="@+id/NetworkLabel">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Status: "
+            android:id="@+id/NetworkStatusLabel"
+            android:layout_below="@+id/Accelerometer"
+            android:layout_alignParentLeft="true"
+            android:layout_row="0"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:id="@+id/NetworkStatusValue"
+            android:layout_row="0"
+            android:layout_column="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="LastMsg: "
+            android:id="@+id/lastMsgReceivedLabel"
+            android:layout_below="@+id/Accelerometer"
+            android:layout_alignParentLeft="true"
+            android:layout_row="1"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:id="@+id/lastMsgReceivedValue"
+            android:layout_row="1"
+            android:layout_column="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="ControlSig: "
+            android:id="@+id/controlLabel"
+            android:layout_below="@+id/Accelerometer"
+            android:layout_alignParentLeft="true"
+            android:layout_row="2"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:id="@+id/controlValue"
+            android:layout_row="2"
+            android:layout_column="1" />
+    </GridLayout>
+
+</RelativeLayout>

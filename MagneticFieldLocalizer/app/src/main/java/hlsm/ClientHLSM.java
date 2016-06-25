@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Michael on 6/24/2016.
@@ -28,9 +29,15 @@ public class ClientHLSM extends ClientAbstractHLSM {
 
     // Control signals
     private boolean connected;
+    private DirectControllerHLSM directControllerHLSM;
+    // Message buffer
+    ConcurrentLinkedQueue<String> messageBuffer;
     @Override
     protected void ExecuteActionInit() {
         connected = false;
+        messageBuffer = new ConcurrentLinkedQueue<>();
+        directControllerHLSM = new DirectControllerHLSM(activity, messageBuffer);
+        directControllerHLSM.start();
     }
 
     @Override
@@ -44,6 +51,8 @@ public class ClientHLSM extends ClientAbstractHLSM {
         try {
             fromServer = networkIn.readLine();
             setActivityLabel(activity.networkMsgLabel, fromServer);
+            directControllerHLSM.readMsg = fromServer;
+            messageBuffer.add(fromServer);
             //System.out.println("Server: " + fromServer);
 
         } catch (IOException e) {

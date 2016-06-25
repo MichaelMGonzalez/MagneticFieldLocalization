@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                      accelerometerLabelX, accelerometerLabelY, accelerometerLabelZ;
     private Button pauseButton;
     private final String NUMFMT = "%.2f";
-    public TextView timeView, networkStatusLabel, networkMsgLabel;
+    public TextView timeView, networkStatusLabel, networkMsgLabel, controlLabel;
 
 
 
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         accelerometerLabelMagnitude = (TextView) findViewById(R.id.accelerometer_label_mag);
         networkStatusLabel = (TextView) findViewById(R.id.NetworkStatusValue);
         networkMsgLabel = (TextView) findViewById(R.id.lastMsgReceivedValue);
+        controlLabel = (TextView) findViewById(R.id.controlValue);
         // Create state machine
         loggerHLSM = new LoggerHLSM(this);
         loggerHLSM.start();
