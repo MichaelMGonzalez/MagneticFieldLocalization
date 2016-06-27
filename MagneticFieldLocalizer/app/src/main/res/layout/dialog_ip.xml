@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Controller&apos;s IP Address:"
+        android:id="@+id/ip_label"
+        android:gravity="center"
+        android:foregroundGravity="center" />
+
+    <GridLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:columnCount="4"
+        android:rowCount="1"
+        android:alignmentMode="alignBounds">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:text="192"
+            android:width="60dp"
+            android:textSize="30dp"
+            android:gravity="center" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:text="168"
+            android:width="60dp"
+            android:textSize="30dp"
+            android:gravity="center" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText3"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:text="0"
+            android:width="60dp"
+            android:textSize="30dp"
+            android:gravity="center" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText4"
+            android:maxLines="1"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:text="1"
+            android:width="60dp"
+            android:textSize="30dp"
+            android:gravity="center" />
+    </GridLayout>
+
+</LinearLayout>

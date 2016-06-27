@@ -1,5 +1,6 @@
 package com.ashmp.magneticfieldlocalizer;
 
+import android.app.AlertDialog;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,11 +10,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import java.util.Set;
 
 import hlsm.AndroidHLSM;
 import hlsm.ClientHLSM;
@@ -76,6 +80,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch(item.getItemId()){
+            case R.id.set_ip:
+                SetIPDialog ipDialog = new SetIPDialog();
+                ipDialog.show(getFragmentManager(), "SetIP");
+                break;
+        }
         return true;
     }
     protected void onResume() {
