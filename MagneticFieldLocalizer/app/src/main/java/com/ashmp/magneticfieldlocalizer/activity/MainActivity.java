@@ -1,5 +1,6 @@
 package com.ashmp.magneticfieldlocalizer.activity;
 
+import android.app.DialogFragment;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -7,12 +8,14 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -25,7 +28,8 @@ import hlsm.ClientHLSM;
 import hlsm.LoggerHLSM;
 import hlsm.SerialHLSM;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity
+        implements SensorEventListener, SetIPDialog.SetIPDialogListener {
 
     private LoggerHLSM loggerHLSM;
     private ClientHLSM clientHLSM;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView magnetometerLabelMagnitude, accelerometerLabelMagnitude;
     private TextView magnetometerLabelX, magnetometerLabelY, magnetometerLabelZ,
                      accelerometerLabelX, accelerometerLabelY, accelerometerLabelZ;
+
     private Button pauseButton;
     private final String NUMFMT = "%.2f";
     public TextView timeView, networkStatusLabel, networkMsgLabel, controlLabel, serialLabel;
@@ -89,8 +94,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     {
         switch(item.getItemId()){
             case R.id.set_ip:
-                SetIPDialog ipDialog = new SetIPDialog();
-                ipDialog.show(getFragmentManager(), "SetIP");
+                showIPDialog();
                 break;
         }
         return true;
@@ -186,5 +190,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         loggerHLSM.startSig = false;
         SystemClock.sleep(500);
         resetLabels();
+    }
+
+    public void showIPDialog() {
+        SetIPDialog ipDialog = new SetIPDialog();
+        ipDialog.show(getFragmentManager(), "SetIP");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }
