@@ -1,4 +1,4 @@
-package com.ashmp.magneticfieldlocalizer;
+package com.ashmp.magneticfieldlocalizer.utils;
 
 /**
  * Created by Michael on 6/23/2016.

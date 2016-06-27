@@ -1,4 +1,4 @@
-package com.ashmp.magneticfieldlocalizer;
+package com.ashmp.magneticfieldlocalizer.utils;
 
 import android.Manifest;
 import android.app.Activity;

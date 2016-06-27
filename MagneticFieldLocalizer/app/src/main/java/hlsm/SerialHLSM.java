@@ -5,7 +5,7 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
 
-import com.ashmp.magneticfieldlocalizer.MainActivity;
+import com.ashmp.magneticfieldlocalizer.activity.MainActivity;
 import com.ashmp.magneticfieldlocalizer.SerialMsgHeader;
 
 import java.io.IOException;

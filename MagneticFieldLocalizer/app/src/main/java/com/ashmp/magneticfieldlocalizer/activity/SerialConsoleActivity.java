@@ -19,7 +19,7 @@
  * Project home page: https://github.com/mik3y/usb-serial-for-android
  */
 
-package com.ashmp.magneticfieldlocalizer;
+package com.ashmp.magneticfieldlocalizer.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -45,6 +45,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import com.ashmp.magneticfieldlocalizer.R;
 import com.ashmp.magneticfieldlocalizer.SerialMsgHeader;
 
 

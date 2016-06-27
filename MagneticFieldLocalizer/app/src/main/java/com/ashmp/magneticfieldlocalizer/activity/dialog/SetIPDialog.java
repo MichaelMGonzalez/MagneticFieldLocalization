@@ -1,4 +1,4 @@
-package com.ashmp.magneticfieldlocalizer;
+package com.ashmp.magneticfieldlocalizer.activity.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,6 +6,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+
+import com.ashmp.magneticfieldlocalizer.R;
 
 /**
  * Created by Michael on 6/27/2016.

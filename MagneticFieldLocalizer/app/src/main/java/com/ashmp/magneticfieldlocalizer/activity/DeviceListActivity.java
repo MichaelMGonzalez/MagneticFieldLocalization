@@ -19,7 +19,7 @@
  * Project home page: https://github.com/mik3y/usb-serial-for-android
  */
 
-package com.ashmp.magneticfieldlocalizer;
+package com.ashmp.magneticfieldlocalizer.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -40,6 +40,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TwoLineListItem;
+
+import com.ashmp.magneticfieldlocalizer.R;
 
 import usbserial.driver.UsbSerialDriver;
 import usbserial.driver.UsbSerialPort;

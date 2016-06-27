@@ -5,9 +5,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import com.ashmp.magneticfieldlocalizer.ExtraMath;
+import com.ashmp.magneticfieldlocalizer.utils.ExtraMath;
 import com.ashmp.magneticfieldlocalizer.Logger;
-import com.ashmp.magneticfieldlocalizer.MainActivity;
+import com.ashmp.magneticfieldlocalizer.activity.MainActivity;
 
 /**
  * Created by Michael on 6/23/2016.

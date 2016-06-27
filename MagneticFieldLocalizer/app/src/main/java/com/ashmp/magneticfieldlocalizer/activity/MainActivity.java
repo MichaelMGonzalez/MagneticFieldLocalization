@@ -1,6 +1,5 @@
-package com.ashmp.magneticfieldlocalizer;
+package com.ashmp.magneticfieldlocalizer.activity;
 
-import android.app.AlertDialog;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,9 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-import java.util.Set;
+import com.ashmp.magneticfieldlocalizer.R;
+import com.ashmp.magneticfieldlocalizer.activity.dialog.SetIPDialog;
+import com.ashmp.magneticfieldlocalizer.utils.ActivityUtils;
+import com.ashmp.magneticfieldlocalizer.utils.ExtraMath;
 
-import hlsm.AndroidHLSM;
 import hlsm.ClientHLSM;
 import hlsm.LoggerHLSM;
 import hlsm.SerialHLSM;

@@ -1,6 +1,6 @@
 package hlsm;
 
-import com.ashmp.magneticfieldlocalizer.MainActivity;
+import com.ashmp.magneticfieldlocalizer.activity.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
