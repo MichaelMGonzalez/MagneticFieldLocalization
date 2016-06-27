@@ -6,26 +6,32 @@ import android.hardware.SensorEventListener;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import hlsm.AndroidHLSM;
 import hlsm.ClientHLSM;
 import hlsm.LoggerHLSM;
+import hlsm.SerialHLSM;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private LoggerHLSM loggerHLSM;
     private ClientHLSM clientHLSM;
+    private SerialHLSM serialHLSM;
 
     private TextView magnetometerLabelMagnitude, accelerometerLabelMagnitude;
     private TextView magnetometerLabelX, magnetometerLabelY, magnetometerLabelZ,
                      accelerometerLabelX, accelerometerLabelY, accelerometerLabelZ;
     private Button pauseButton;
     private final String NUMFMT = "%.2f";
-    public TextView timeView, networkStatusLabel, networkMsgLabel, controlLabel;
+    public TextView timeView, networkStatusLabel, networkMsgLabel, controlLabel, serialLabel;
 
 
 
@@ -53,13 +59,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         networkStatusLabel = (TextView) findViewById(R.id.NetworkStatusValue);
         networkMsgLabel = (TextView) findViewById(R.id.lastMsgReceivedValue);
         controlLabel = (TextView) findViewById(R.id.controlValue);
+        serialLabel = (TextView) findViewById(R.id.serial_status_value);
+        // Setup toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         // Create state machine
         loggerHLSM = new LoggerHLSM(this);
         loggerHLSM.start();
         clientHLSM = new ClientHLSM(this);
         clientHLSM.start();
+        serialHLSM = new SerialHLSM(this);
+        serialHLSM.start();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
     protected void onResume() {
         super.onResume();
         if( loggerHLSM.state == loggerHLSM.LOGGING ) {
